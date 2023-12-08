@@ -33,7 +33,6 @@
 *.o*
 
 # build system files
-Makefile
 config.status
 config.log
 config.h.in
