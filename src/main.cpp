@@ -70,7 +70,8 @@ int main() {
     for (size_t iw = 0; iw < numWorkers; iw++) {
         size_t jobs = jobsPerWork + (iw < remainingJobs ? 1 : 0);
             
-        futures.push_back(ThreadPool::PushTask([jobs, iw, jobs_done, &interm, &gas_jet, &detectors](size_t) {
+        // futures.push_back(ThreadPool::PushTask([jobs, iw, jobs_done, &interm, &gas_jet, &detectors](size_t)
+        {
             // ----------- set up sfa ------------------------
             LOG_DEBUG("set up sfa");
             SFA::SFA sfa;
@@ -126,15 +127,16 @@ int main() {
                 }
             }
             sfa.FreeVectorization();
-        }));
+        }
+        //));
         jobs_done += jobs;
     }
 
     LOG_INFO("waiting for " + std::to_string(ThreadPool::WorkerCount()) + " threads");
     // wait for threads
 
-    for (auto& f: futures)
-        f.wait();
+    // for (auto& f: futures)
+    //     f.wait();
 
     LOG_INFO("combine partial sums");
     // combine partial sums
