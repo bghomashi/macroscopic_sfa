@@ -130,6 +130,8 @@ int main() {
 
     LOG_INFO("waiting for " + std::to_string(ThreadPool::WorkerCount()) + " threads");
     // wait for threads
+    exit(0);
+    
     for (auto& f: futures)
         f.wait();
 
