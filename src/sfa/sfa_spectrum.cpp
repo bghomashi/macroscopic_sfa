@@ -3,6 +3,7 @@
 #include "maths/vec2.h"
 #include "maths/blackman.h"
 #include "utility/profiler.h"
+#include <complex>
 
 namespace SFA {
     void SFA::Spectrum() {
