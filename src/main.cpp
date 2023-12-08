@@ -8,6 +8,7 @@
 #include "utility/save_data.h"
 #include "utility/profiler.h"
 #include "utility/thread_pool.h"
+#include "utility/logger.h"
 
 // laser parameters
 double peak_I0_wcm2 = 1e14;
@@ -33,20 +34,26 @@ double ffmin = 0. * w0, ffmax = 40. * w0;
 
 
 int main() {
+    Log::set_logger("log.txt");
+    LOG_INFO("main()");
+
     std::vector<std::pair<double, double>> detectors = { {0,0} };
     std::vector<c2vector> spectrums(detectors.size());
     auto frequencies = Range(dff, ffmax, ffmin);
     for (auto& s : spectrums) s.resize(frequencies.size(), { 0,0 });
 
     // ------------- set up lasers --------------------
+    LOG_INFO("set up lasers");
     std::vector<Laser> lasers;
     lasers.emplace_back(peak_I0_wcm2, waist_um, Lnm, g0);
 
     // -------------- set up gas jet ------------------
+    LOG_INFO("set up gas jet");
     CylindricalGasJet gas_jet(gas_density_cm3, gas_sig_um, gas_radius_um, gas_length_um, gas_cells);
     gas_jet.SampleCylinder(lasers);
 
     // -------------- set up threadpool ---------------
+    LOG_INFO("set up threadpool");
     ThreadPool::Startup();
     size_t numWorkers = ThreadPool::WorkerCount();
     size_t jobsPerWork = gas_jet.cells.size() / numWorkers;
@@ -56,7 +63,8 @@ int main() {
     for (auto& i : interm) i.resize(detectors.size());
     size_t jobs_done = 0;
 
-    // begin calculation
+    // ------------- begin calculation ---------------
+    LOG_INFO("begin calculation");
     for (size_t iw = 0; iw < numWorkers; iw++) {
         size_t jobs = jobsPerWork + (iw < remainingJobs ? 1 : 0);
             
