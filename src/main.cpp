@@ -34,7 +34,7 @@ double ffmin = 0. * w0, ffmax = 40. * w0;
 
 
 int main() {
-    Log::set_logger("log.txt");
+    Log::set_logger_file("log.txt");
     LOG_INFO("main()");
 
     std::vector<std::pair<double, double>> detectors = { {0,0} };
