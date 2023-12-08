@@ -10,6 +10,7 @@
 #include "utility/thread_pool.h"
 #include "utility/logger.h"
 
+size_t worker_thread = 16;
 // laser parameters
 double peak_I0_wcm2 = 1e14;
 double waist_um = 30;
@@ -54,7 +55,7 @@ int main() {
 
     // -------------- set up threadpool ---------------
     LOG_INFO("set up threadpool");
-    ThreadPool::Startup();
+    ThreadPool::Startup(worker_thread);
     size_t numWorkers = ThreadPool::WorkerCount();
     size_t jobsPerWork = gas_jet.cells.size() / numWorkers;
     size_t remainingJobs = gas_jet.cells.size() % numWorkers;
@@ -131,7 +132,7 @@ int main() {
     LOG_INFO("waiting for " + std::to_string(ThreadPool::WorkerCount()) + " threads");
     // wait for threads
     exit(0);
-    
+
     for (auto& f: futures)
         f.wait();
 
