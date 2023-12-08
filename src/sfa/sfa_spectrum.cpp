@@ -1,4 +1,5 @@
 #include "sfa.h"
+#include "maths/maths.h"
 #include "maths/vec2.h"
 #include "maths/blackman.h"
 #include "utility/profiler.h"
@@ -22,7 +23,7 @@ namespace SFA {
             for (int it = 0; it < nt; it++) {
                 double t = ts[it];
 
-                hhg[iff] += std::exp(-1i * f * t) * window[it] * real(dipole[it]) * dt;
+                hhg[iff] += std::exp(-1.i * f * t) * window[it] * real(dipole[it]) * dt;
             }
             hhg[iff] *= -f * f;
         }
