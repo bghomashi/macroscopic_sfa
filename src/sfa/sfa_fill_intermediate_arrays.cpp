@@ -3,29 +3,30 @@
 #include "utility/profiler.h"
 
 namespace SFA {
-    inline void dtm4packed(const double* f,
-        const double* dtmtimagi,
-        const double* dtmtreali,
-        const double* dtmtimagj,
-        const double* dtmtrealj,
-        const double* Px,
-        const double* Py,
-        double* dtm_it_imag_x,
-        double* dtm_it_imag_y,
-        double* dtm_it_real_x,
-        double* dtm_it_real_y) {
-        auto f2 = _mm256_sub_pd(fast::one, *(__m256d*)f);
-        auto areal = _mm256_mul_pd(*(__m256d*)dtmtimagj, *(__m256d*)f);
-        auto aimag = _mm256_mul_pd(*(__m256d*)dtmtrealj, *(__m256d*)f);
-        auto breal = _mm256_mul_pd(*(__m256d*)dtmtimagi, f2);
-        auto bimag = _mm256_mul_pd(*(__m256d*)dtmtreali, f2);
-        auto imag = _mm256_add_pd(aimag, bimag);
-        auto real = _mm256_add_pd(areal, breal);
-        _mm256_store_pd(dtm_it_imag_x, _mm256_mul_pd(imag, *(__m256d*)Px));
-        _mm256_store_pd(dtm_it_imag_y, _mm256_mul_pd(imag, *(__m256d*)Py));
-        _mm256_store_pd(dtm_it_real_x, _mm256_mul_pd(real, *(__m256d*)Px));
-        _mm256_store_pd(dtm_it_real_y, _mm256_mul_pd(real, *(__m256d*)Py));
-    }
+    // inline void dtm4packed(const double* f,
+    //     const double* dtmtimagi,
+    //     const double* dtmtreali,
+    //     const double* dtmtimagj,
+    //     const double* dtmtrealj,
+    //     const double* Px,
+    //     const double* Py,
+    //     double* dtm_it_imag_x,
+    //     double* dtm_it_imag_y,
+    //     double* dtm_it_real_x,
+    //     double* dtm_it_real_y) {
+    //     auto f2 = _mm256_sub_pd(fast::one, *(__m256d*)f);
+    //     auto areal = _mm256_mul_pd(*(__m256d*)dtmtimagj, *(__m256d*)f);
+    //     auto aimag = _mm256_mul_pd(*(__m256d*)dtmtrealj, *(__m256d*)f);
+    //     auto breal = _mm256_mul_pd(*(__m256d*)dtmtimagi, f2);
+    //     auto bimag = _mm256_mul_pd(*(__m256d*)dtmtreali, f2);
+    //     auto imag = _mm256_add_pd(aimag, bimag);
+    //     auto real = _mm256_add_pd(areal, breal);
+    //     auto mul = _mm256_mul_pd(imag, *(__m256d*)Px);
+    //     _mm256_store_pd(dtm_it_imag_x, mul);
+    //     // _mm256_store_pd(dtm_it_imag_y, _mm256_mul_pd(imag, *(__m256d*)Py));
+    //     // _mm256_store_pd(dtm_it_real_x, _mm256_mul_pd(real, *(__m256d*)Px));
+    //     // _mm256_store_pd(dtm_it_real_y, _mm256_mul_pd(real, *(__m256d*)Py));
+    // }
 
     void SFA::FillIntermediateArrays() {
 #if defined(PROFILING)
@@ -55,6 +56,10 @@ namespace SFA {
         BEGIN_ALIGNED(32) double dtmtiimagj[4] END_ALIGNED(32) = { 0 };
         BEGIN_ALIGNED(32) double dtmtireali[4] END_ALIGNED(32) = { 0 };
         BEGIN_ALIGNED(32) double dtmtirealj[4] END_ALIGNED(32) = { 0 };
+        BEGIN_ALIGNED(32) double temp_rx[4] END_ALIGNED(32) = { 0 };
+        BEGIN_ALIGNED(32) double temp_ry[4] END_ALIGNED(32) = { 0 };
+        BEGIN_ALIGNED(32) double temp_ix[4] END_ALIGNED(32) = { 0 };
+        BEGIN_ALIGNED(32) double temp_iy[4] END_ALIGNED(32) = { 0 };
 
         const __m256d vecIp = _mm256_set1_pd(Ip);
         const __m256d vecPs0 = _mm256_set1_pd(ps[0]);
@@ -64,6 +69,7 @@ namespace SFA {
             int idx = index(itr, 0);
             int l = (itr - 2) / 4;
             int iti = 1;
+
             for (iti = 1; iti < l * 4; iti += 4) {             // ti
                 for (int i = 0; i < 4; i++) {
                     delt[i] = ts[iti + i] - ts[itr];
@@ -106,37 +112,56 @@ namespace SFA {
                 }
 
                 // dtmtr
-                dtm4packed(trf,
-                    dtmtrimagi,
-                    dtmtrreali,
-                    dtmtrimagj,
-                    dtmtrrealj,
-                    trPx, trPy,
-                    &dtm_itr_imag_x[idx + iti],
-                    &dtm_itr_imag_y[idx + iti],
-                    &dtm_itr_real_x[idx + iti],
-                    &dtm_itr_real_y[idx + iti]);
+                {
+                    auto f2 = _mm256_sub_pd(fast::one, *(__m256d*)trf);
+                    auto areal = _mm256_mul_pd(*(__m256d*)dtmtrimagj, *(__m256d*)trf);
+                    auto aimag = _mm256_mul_pd(*(__m256d*)dtmtrrealj, *(__m256d*)trf);
+                    auto breal = _mm256_mul_pd(*(__m256d*)dtmtrimagi, f2);
+                    auto bimag = _mm256_mul_pd(*(__m256d*)dtmtrreali, f2);
+                    auto imag = _mm256_add_pd(aimag, bimag);
+                    auto real = _mm256_add_pd(areal, breal);
+                    _mm256_store_pd(temp_ix, _mm256_mul_pd(imag, *(__m256d*)trPx));
+                    _mm256_store_pd(temp_iy, _mm256_mul_pd(imag, *(__m256d*)trPy));
+                    _mm256_store_pd(temp_rx, _mm256_mul_pd(real, *(__m256d*)trPx));
+                    _mm256_store_pd(temp_ry, _mm256_mul_pd(real, *(__m256d*)trPy));
 
-
-                dtm4packed(tif,
-                    dtmtiimagi,
-                    dtmtireali,
-                    dtmtiimagj,
-                    dtmtirealj,
-                    tiPx, tiPy,
-                    &dtm_iti_imag_x[idx + iti],
-                    &dtm_iti_imag_y[idx + iti],
-                    &dtm_iti_real_x[idx + iti],
-                    &dtm_iti_real_y[idx + iti]);
-
+                    for (int i = 0; i < 4; i++) {
+                        dtm_itr_real_x[idx + iti + i] = temp_rx[i];
+                        dtm_itr_real_y[idx + iti + i] = temp_ry[i];
+                        dtm_itr_imag_x[idx + iti + i] = temp_ix[i];
+                        dtm_itr_imag_y[idx + iti + i] = temp_ix[i];
+                    }
+                }
+                {
+                    auto f2 = _mm256_sub_pd(fast::one, *(__m256d*)tif);
+                    auto areal = _mm256_mul_pd(*(__m256d*)dtmtiimagj, *(__m256d*)tif);
+                    auto aimag = _mm256_mul_pd(*(__m256d*)dtmtirealj, *(__m256d*)tif);
+                    auto breal = _mm256_mul_pd(*(__m256d*)dtmtiimagi, f2);
+                    auto bimag = _mm256_mul_pd(*(__m256d*)dtmtireali, f2);
+                    auto imag = _mm256_add_pd(aimag, bimag);
+                    auto real = _mm256_add_pd(areal, breal);
+                    _mm256_store_pd(temp_ix, _mm256_mul_pd(imag, *(__m256d*)tiPx));
+                    _mm256_store_pd(temp_iy, _mm256_mul_pd(imag, *(__m256d*)tiPy));
+                    _mm256_store_pd(temp_rx, _mm256_mul_pd(real, *(__m256d*)tiPx));
+                    _mm256_store_pd(temp_ry, _mm256_mul_pd(real, *(__m256d*)tiPy));
+                    for (int i = 0; i < 4; i++) {
+                        dtm_iti_real_x[idx + iti + i] = temp_rx[i];
+                        dtm_iti_real_y[idx + iti + i] = temp_ry[i];
+                        dtm_iti_imag_x[idx + iti + i] = temp_ix[i];
+                        dtm_iti_imag_y[idx + iti + i] = temp_ix[i];
+                    }
+                }
+                
                 // ------------------ S0 
                 auto H0 = _mm256_add_pd(_mm256_mul_pd(fast::negHalf, *(__m256d*)PP), vecIp);  // -0.5*(P^2) + Ip
                 auto S0 = _mm256_mul_pd(H0, *(__m256d*)delt);
                 auto SAA = _mm256_mul_pd(fast::negHalf, *(__m256d*)DintAA);
                 auto action = _mm256_add_pd(S0, SAA);
-                _mm256_store_pd(&S0_saddle[idx + iti], _mm256_sub_pd(action, fast::Pi));
-            }
+                _mm256_store_pd(temp_rx, _mm256_sub_pd(action, fast::Pi));
+                for (int i = 0; i < 4; i++) 
+                        S0_saddle[idx + iti + i] = temp_rx[i];
 
+            }
 
             for (; iti < itr; iti++) {
                 double deltat = ts[iti] - ts[itr];

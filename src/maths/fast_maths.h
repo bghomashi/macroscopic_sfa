@@ -3,6 +3,9 @@
 #include "maths/maths.h"
 #include <immintrin.h>
 
+
+#include "utility/logger.h"
+
 #if defined(_MSC_VER)
 #define BEGIN_ALIGNED(x) __declspec(align(x)) 
 #define END_ALIGNED(x)
@@ -182,7 +185,8 @@ namespace fast {
 #ifdef _MSC_VER 
 		result = _aligned_malloc(size, align);
 #else 
-		if (posix_memalign(&result, align, size)) result = 0;
+		int error;
+		if ((error = posix_memalign(&result, align, size))) result = 0;
 #endif
 		return result;
 	}

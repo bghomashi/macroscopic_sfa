@@ -3,8 +3,6 @@
 #include "utility/profiler.h"
 
 namespace SFA {
-
-
 	void SFA::Execute2D() {
         int NT = int(ts.size());
         dipole.resize(NT, { 0,0 });
@@ -19,7 +17,10 @@ namespace SFA {
         BEGIN_ALIGNED(32) double delt[4] END_ALIGNED(32) = { 0 };
         BEGIN_ALIGNED(32) double EEx[4] END_ALIGNED(32) = { 0 };
         BEGIN_ALIGNED(32) double EEy[4] END_ALIGNED(32) = { 0 };
-
+        BEGIN_ALIGNED(32) double temp_rx[4] END_ALIGNED(32) = { 0 };
+        BEGIN_ALIGNED(32) double temp_ry[4] END_ALIGNED(32) = { 0 };
+        BEGIN_ALIGNED(32) double temp_ix[4] END_ALIGNED(32) = { 0 };
+        BEGIN_ALIGNED(32) double temp_iy[4] END_ALIGNED(32) = { 0 };
 
 #if defined(PROFILING)
         Profile::Push("SFA::Execute2D");
@@ -36,17 +37,17 @@ namespace SFA {
                     EEy[i] = E[iti + i].y;
                 }
 
-                __m256d action = *(__m256d*)(&S0_saddle[idx + iti]);
-                __m256d Ex = *(__m256d*)EEx,
-                        Ey = *(__m256d*)EEy;
+                __m256d action  = *(__m256d*)(&S0_saddle[idx + iti]);
+                __m256d Ex      = *(__m256d*)EEx,
+                        Ey      = *(__m256d*)EEy;
                 __m256d dtmTiRealx = *(__m256d*)(&dtm_iti_real_x[idx + iti]),
-                    dtmTiImagx = *(__m256d*)(&dtm_iti_imag_x[idx + iti]),
-                    dtmTiRealy = *(__m256d*)(&dtm_iti_real_y[idx + iti]),
-                    dtmTiImagy = *(__m256d*)(&dtm_iti_imag_y[idx + iti]);
+                        dtmTiImagx = *(__m256d*)(&dtm_iti_imag_x[idx + iti]),
+                        dtmTiRealy = *(__m256d*)(&dtm_iti_real_y[idx + iti]),
+                        dtmTiImagy = *(__m256d*)(&dtm_iti_imag_y[idx + iti]);
                 __m256d dtmTrRealx = *(__m256d*)(&dtm_itr_real_x[idx + iti]),
-                    dtmTrImagx = *(__m256d*)(&dtm_itr_imag_x[idx + iti]),
-                    dtmTrRealy = *(__m256d*)(&dtm_itr_real_y[idx + iti]),
-                    dtmTrImagy = *(__m256d*)(&dtm_itr_imag_y[idx + iti]);
+                        dtmTrImagx = *(__m256d*)(&dtm_itr_imag_x[idx + iti]),
+                        dtmTrRealy = *(__m256d*)(&dtm_itr_real_y[idx + iti]),
+                        dtmTrImagy = *(__m256d*)(&dtm_itr_imag_y[idx + iti]);
 
                 // ----------------- compute coeff ------------------
                 __m256d coeff_real = _mm256_div_pd(fast::sqrtPi2, _mm256_sqrt_pd(*(__m256d*)delt));        // sqrt(2pi)/sqrt(tr-ti)
@@ -67,30 +68,36 @@ namespace SFA {
                 __m256d factor_real = _mm256_sub_pd(_mm256_mul_pd(coeff_real, ED_real), _mm256_mul_pd(coeff_imag, ED_imag));
                 __m256d factor_imag = _mm256_add_pd(_mm256_mul_pd(coeff_imag, ED_real), _mm256_mul_pd(coeff_real, ED_imag));
                 // --------------------------------------------------
-                _mm256_store_pd(&realx[idx + iti],
+                _mm256_store_pd(temp_rx,
                     _mm256_sub_pd(
                         _mm256_mul_pd(factor_real, dtmTrRealx),
                         _mm256_mul_pd(factor_imag, dtmTrImagx)
                     )
                 );
-                _mm256_store_pd(&imagx[idx + iti],
+                _mm256_store_pd(temp_ix,
                     _mm256_add_pd(
                         _mm256_mul_pd(factor_imag, dtmTrRealx),
                         _mm256_mul_pd(factor_real, dtmTrImagx)
                     )
                 );
-                _mm256_store_pd(&realy[idx + iti],
+                _mm256_store_pd(temp_ry,
                     _mm256_sub_pd(
                         _mm256_mul_pd(factor_real, dtmTrRealy),
                         _mm256_mul_pd(factor_imag, dtmTrImagy)
                     )
                 );
-                _mm256_store_pd(&imagy[idx + iti],
+                _mm256_store_pd(temp_iy,
                     _mm256_add_pd(
                         _mm256_mul_pd(factor_imag, dtmTrRealy),
                         _mm256_mul_pd(factor_real, dtmTrImagy)
                     )
                 );
+                for (int i = 0; i < 4; i++) {
+                    realx[idx + iti + i] = temp_rx[i];
+                    realy[idx + iti + i] = temp_ry[i];
+                    imagx[idx + iti + i] = temp_ix[i];
+                    imagy[idx + iti + i] = temp_iy[i];
+                }
             }
             for (; iti < itr; iti++) {
                 deltat = ts[itr] - ts[iti];
@@ -127,7 +134,9 @@ namespace SFA {
                 __m256d ptrXX = _mm256_setr_pd(realx[idx + iti], imagx[idx + iti], realy[idx + iti], imagy[idx + iti]);
                 ptrX = _mm256_add_pd(ptrX, ptrXX);
             }
-            _mm256_store_pd((double*)&dip[itr].x, ptrX);
+            _mm256_store_pd(temp_rx, ptrX);
+            dip[itr].x = complex(temp_rx[0], temp_rx[1]);
+            dip[itr].y = complex(temp_rx[2], temp_rx[3]);
         }
 
         for (int itr = 0; itr < NT; itr++) {

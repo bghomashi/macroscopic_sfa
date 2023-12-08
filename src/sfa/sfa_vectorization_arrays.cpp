@@ -1,6 +1,7 @@
 #include "sfa.h"
 #include "maths/fast_maths.h"
 #include "utility/profiler.h"
+#include "utility/logger.h"
 
 namespace SFA {
     void SFA::SetupVectorization() {

@@ -21,7 +21,7 @@ double w0 = LnmToAU / Lnm;
 // gas parameters
 double gas_radius_um = 500;
 double gas_length_um = 6 * waist_um;
-size_t gas_cells = 1000;
+size_t gas_cells = 1;
 double gas_sig_um = 800;
 double gas_density_cm3 = 1;
 
@@ -61,6 +61,7 @@ int main() {
     std::vector<std::future<void>> futures;
     std::vector<std::vector<c2vector>> interm(numWorkers);
     for (auto& i : interm) i.resize(detectors.size());
+    for (auto& i : interm) for (auto& d : i) d.resize(frequencies.size(), {0,0}); 
     size_t jobs_done = 0;
 
     // ------------- begin calculation ---------------
@@ -70,6 +71,7 @@ int main() {
             
         futures.push_back(ThreadPool::PushTask([jobs, iw, jobs_done, &interm, &gas_jet, &detectors](size_t) {
             // ----------- set up sfa ------------------------
+            LOG_DEBUG("set up sfa");
             SFA::SFA sfa;
             sfa.ts = Range(dt, tmax);
             sfa.ps = Range(dp, pmax, pmin);
@@ -84,20 +86,25 @@ int main() {
             sfa.SetupVectorization();
             sfa.SetupDTM();
 
-            // ----------------------------------------------
+            // --------------macroscopic propagation-----------
             for (int ic = 0; ic < jobs; ic++) {                                // for each cell
                 auto& cell = gas_jet.cells[ic];
                 auto rj = cell.pos;
 
+                LOG_DEBUG("set sfa pulse");
                 for (int i = 0; i < cell.intensity.size(); i++) {
                     pulses[i]->CEP = cell.phase[i];
                     pulses[i]->E0 = sqrt(cell.intensity[i]);
                 }
 
+                LOG_DEBUG("SetupFieldArrays");
                 sfa.SetupFieldArrays();
+                LOG_DEBUG("Execute2D");
                 sfa.Execute2D();
+                LOG_DEBUG("Spectrum");
                 sfa.Spectrum();
 
+                LOG_DEBUG("macroscopic propagation");
                 for (int i = 0; i < interm[iw].size(); i++) {                    // for each detector
                     auto& d = detectors[i];
                     auto& spectrum = interm[iw][i];
@@ -120,10 +127,13 @@ int main() {
             sfa.FreeVectorization();
         }));
     }
+
+    LOG_INFO("waiting for threads");
     // wait for threads
     for (auto& f: futures)
         f.wait();
 
+    LOG_INFO("combine partial sums");
     // combine partial sums
     for (size_t iw = 0; iw < numWorkers; iw++) {                            // for each worker
         for (int id = 0; id < interm[iw].size(); id++) {                    // for each detector
