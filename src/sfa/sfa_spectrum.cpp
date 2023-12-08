@@ -22,7 +22,7 @@ namespace SFA {
             for (int it = 0; it < nt; it++) {
                 double t = ts[it];
 
-                hhg[iff] += exp(-1i * f * t) * window[it] * real(dipole[it]) * dt;
+                hhg[iff] += std::exp(-1i * f * t) * window[it] * real(dipole[it]) * dt;
             }
             hhg[iff] *= -f * f;
         }
