@@ -40,14 +40,14 @@ namespace SFA {
                 __m256d action  = *(__m256d*)(&S0_saddle[idx + iti]);
                 __m256d Ex      = *(__m256d*)EEx,
                         Ey      = *(__m256d*)EEy;
-                __m256d dtmTiRealx = *(__m256d*)(&dtm_iti_real_x[idx + iti]),
-                        dtmTiImagx = *(__m256d*)(&dtm_iti_imag_x[idx + iti]),
-                        dtmTiRealy = *(__m256d*)(&dtm_iti_real_y[idx + iti]),
-                        dtmTiImagy = *(__m256d*)(&dtm_iti_imag_y[idx + iti]);
-                __m256d dtmTrRealx = *(__m256d*)(&dtm_itr_real_x[idx + iti]),
-                        dtmTrImagx = *(__m256d*)(&dtm_itr_imag_x[idx + iti]),
-                        dtmTrRealy = *(__m256d*)(&dtm_itr_real_y[idx + iti]),
-                        dtmTrImagy = *(__m256d*)(&dtm_itr_imag_y[idx + iti]);
+                __m256d dtmTiRealx = _mm256_loadu_pd(&dtm_iti_real_x[idx + iti]),
+                        dtmTiImagx = _mm256_loadu_pd(&dtm_iti_imag_x[idx + iti]),
+                        dtmTiRealy = _mm256_loadu_pd(&dtm_iti_real_y[idx + iti]),
+                        dtmTiImagy = _mm256_loadu_pd(&dtm_iti_imag_y[idx + iti]);
+                __m256d dtmTrRealx = _mm256_loadu_pd(&dtm_itr_real_x[idx + iti]),
+                        dtmTrImagx = _mm256_loadu_pd(&dtm_itr_imag_x[idx + iti]),
+                        dtmTrRealy = _mm256_loadu_pd(&dtm_itr_real_y[idx + iti]),
+                        dtmTrImagy = _mm256_loadu_pd(&dtm_itr_imag_y[idx + iti]);
 
                 // ----------------- compute coeff ------------------
                 __m256d coeff_real = _mm256_div_pd(fast::sqrtPi2, _mm256_sqrt_pd(*(__m256d*)delt));        // sqrt(2pi)/sqrt(tr-ti)
