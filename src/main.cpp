@@ -22,7 +22,7 @@ double w0 = LnmToAU / Lnm;
 // gas parameters
 double gas_radius_um = 500;
 double gas_length_um = 6 * waist_um;
-size_t gas_cells = 1;
+size_t gas_cells = 100000;
 double gas_sig_um = 800;
 double gas_density_cm3 = 1;
 
@@ -126,7 +126,7 @@ int main() {
                     }
                 }
             }
-            sfa.FreeVectorization();
+            //sfa.FreeVectorization();
         }
         ));
         jobs_done += jobs;
