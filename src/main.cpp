@@ -10,7 +10,7 @@
 #include "utility/thread_pool.h"
 #include "utility/logger.h"
 
-size_t worker_thread = 16;
+size_t worker_thread = 4;
 // laser parameters
 double peak_I0_wcm2 = 1e14;
 double waist_um = 30;
@@ -127,6 +127,7 @@ int main() {
             }
             sfa.FreeVectorization();
         }));
+        jobs_done += jobs;
     }
 
     LOG_INFO("waiting for " + std::to_string(ThreadPool::WorkerCount()) + " threads");
@@ -134,8 +135,6 @@ int main() {
 
     for (auto& f: futures)
         f.wait();
-
-    exit(0);
 
     LOG_INFO("combine partial sums");
     // combine partial sums
