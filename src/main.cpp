@@ -10,7 +10,7 @@
 #include "utility/thread_pool.h"
 #include "utility/logger.h"
 
-size_t worker_thread = 4;
+size_t worker_thread = 1;
 // laser parameters
 double peak_I0_wcm2 = 1e14;
 double waist_um = 30;
