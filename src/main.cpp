@@ -128,10 +128,12 @@ int main() {
         }));
     }
 
-    LOG_INFO("waiting for threads");
+    LOG_INFO("waiting for " + std::to_string(ThreadPool::WorkerCount()) + " threads");
     // wait for threads
     for (auto& f: futures)
         f.wait();
+
+    exit(0);
 
     LOG_INFO("combine partial sums");
     // combine partial sums
