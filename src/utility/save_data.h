@@ -9,5 +9,10 @@ bool Store(const std::string& filename, const dvector& domain, const d2vector& d
 bool Store(const std::string& filename, const dvector& domain, const cvector& data);
 bool Store(const std::string& filename, const dvector& domain, const dvector& data);
 
+bool Store(const std::string& filename, const c2vector& data);
+bool Store(const std::string& filename, const d2vector& data);
+bool Store(const std::string& filename, const cvector& data);
+bool Store(const std::string& filename, const dvector& data);
+
 
 

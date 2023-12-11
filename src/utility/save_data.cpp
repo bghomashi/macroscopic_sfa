@@ -61,3 +61,60 @@ bool Store(const std::string& filename, const dvector& domain, const dvector& da
     }
     return true;
 }
+
+
+
+bool Store(const std::string& filename, const c2vector& data) {
+    int nf = int(data.size());
+    std::ofstream file(filename);
+    if (!file.is_open())
+        return false;
+    file << std::setprecision(8) << std::scientific;
+
+    for (int iff = 0; iff < nf; iff++) {
+        file << std::real(data[iff].x) << "\t"
+             << std::imag(data[iff].x) << "\t"
+             << std::real(data[iff].y) << "\t"
+             << std::imag(data[iff].y) << "\n";
+
+    }
+    return true;
+}
+bool Store(const std::string& filename, const d2vector& data) {
+    int nf = int(data.size());
+    std::ofstream file(filename);
+    if (!file.is_open())
+        return false;
+    file << std::setprecision(8) << std::scientific;
+
+    for (int iff = 0; iff < nf; iff++) {
+        file << data[iff].x << "\t"
+             << data[iff].y << "\n";
+    }
+    return true;
+}
+bool Store(const std::string& filename, const cvector& data) {
+    int nf = int(data.size());
+    std::ofstream file(filename);
+    if (!file.is_open())
+        return false;
+    file << std::setprecision(8) << std::scientific;
+
+    for (int iff = 0; iff < nf; iff++) {
+        file << std::real(data[iff]) << "\t"
+             << std::imag(data[iff]) << "\n";
+    }
+    return true;
+}
+bool Store(const std::string& filename, const dvector& data) {
+    int nf = int(data.size());
+    std::ofstream file(filename);
+    if (!file.is_open())
+        return false;
+    file << std::setprecision(8) << std::scientific;
+
+    for (int iff = 0; iff < nf; iff++) {
+        file << data[iff] << "\n";
+    }
+    return true;
+}

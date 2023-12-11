@@ -46,6 +46,9 @@ int main() {
     Log::set_logger_file("log.txt");
     LOG_INFO("main()");
 
+    if (!ReadInput("input.json"))
+        LOG_INFO("input.json not found");
+
     std::vector<std::pair<double, double>> detectors = { {0,0} };
     std::vector<c2vector> spectrums(detectors.size());
     auto frequencies = Range(dff, ffmax, ffmin);
@@ -161,7 +164,7 @@ int main() {
 
     ThreadPool::Shutdown();
 
-    Store("out.dat", frequencies, spectrums[0]);
+    Store(output_filename, frequencies, spectrums[0]);
 
 
 #if defined(PROFILING)
@@ -192,18 +195,22 @@ bool ReadInput(const std::string& filename) {
     double t_max = 0;
     for (auto l : input["lasers"]) {
         peak_I0_wcm2.push_back(l["intensity"].get<double>());
-        waist_um.push_back(l["beam_waist"].get<double>());
+        waist_um.push_back(l["beam_waist_um"].get<double>());
         g0.push_back(l["porras_factor"].get<double>());
         Ncyc.push_back(l["cycles"].get<double>());
         major_pol.push_back({l["polarization"][0].get<double>(), l["polarization"][1].get<double>()});
-        if (l.contains("wavelength")) {
-            Lnm.push_back(l["wavelength"].get<double>());
+        if (l.contains("wavelength_nm")) {
+            Lnm.push_back(l["wavelength_nm"].get<double>());
             w0.push_back(LnmToAU / Lnm.back());
         } else if (l.contains("frequency")) {
             w0.push_back(l["frequency"].get<double>());
             Lnm.push_back(LnmToAU / w0.back());
         }
         t_max = std::max(t_max, Ncyc.back()*2.*Pi/w0.back());
+        if (l.contains("cep"))
+            cep.push_back(l["cep"].get<double>());
+        else
+            cep.push_back(0);
     }
 
     auto gas_jet = input["gas_jet"];
