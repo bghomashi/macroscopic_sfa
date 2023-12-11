@@ -9,30 +9,38 @@
 #include "utility/profiler.h"
 #include "utility/thread_pool.h"
 #include "utility/logger.h"
+#include "utility/json.hpp"
+#include <iostream>
+#include <fstream>
 
 size_t worker_thread = 16;
 // laser parameters
-double peak_I0_wcm2 = 1e14;
-double waist_um = 30;
-double Lnm = 800;
-double g0 = 0;
-double Ncyc = 10;
-double w0 = LnmToAU / Lnm;
+dvector peak_I0_wcm2 = {1e14};
+dvector waist_um = {30};
+dvector Lnm = {800};
+dvector g0 = {0};
+dvector Ncyc = {10};
+dvector w0 = {LnmToAU / Lnm.back()};
+d2vector major_pol = {{1., 0.}};
+dvector cep = {0};
 
 // gas parameters
 double gas_radius_um = 500;
-double gas_length_um = 6 * waist_um;
+double gas_length_um = 6 * waist_um.back();
 size_t gas_cells = 100000;
 double gas_sig_um = 800;
 double gas_density_cm3 = 1;
 
 double dt = 0.2;
-double tmax = (2. * Pi / w0) * Ncyc;
+double tmax = (2. * Pi / w0.back()) * Ncyc.back();
 double dp = 0.00001;
 double pmin = 0, pmax = 3;
 double dff = 0.01;
-double ffmin = 0. * w0, ffmax = 40. * w0;
+double ffmin = 0. * w0.back(), ffmax = 40. * w0.back();
 
+std::string output_filename = "out.dat";
+
+bool ReadInput(const std::string& filename);
 
 int main() {
     Log::set_logger_file("log.txt");
@@ -46,7 +54,9 @@ int main() {
     // ------------- set up lasers --------------------
     LOG_INFO("set up lasers");
     std::vector<Laser> lasers;
-    lasers.emplace_back(peak_I0_wcm2, waist_um, Lnm, g0);
+    for (int i = 0; i < peak_I0_wcm2.size(); i++) {
+        lasers.emplace_back(peak_I0_wcm2[i], waist_um[i], Lnm[i], g0[i]);
+    }
 
     // -------------- set up gas jet ------------------
     LOG_INFO("set up gas jet");
@@ -80,11 +90,12 @@ int main() {
             sfa.frequencies = Range(dff, ffmax, ffmin);
             sfa.Ip = 0.5;
             sfa.dtm = std::make_shared<SFA::ZeroRange>(sfa.Ip);
-            std::vector<SFA::Sin2Pulse::Ptr_t> pulses = {
-                std::make_shared<SFA::Sin2Pulse>(0., LnmToAU / Lnm, Ncyc, 0., dvec2{1., 0.})
-            };
-            sfa.pulses.insert(sfa.pulses.begin(), pulses.begin(), pulses.end());
-        
+            std::vector<SFA::Sin2Pulse::Ptr_t> pulses(peak_I0_wcm2.size());
+            for (int i = 0; i < peak_I0_wcm2.size(); i++) {
+                auto pulse = std::make_shared<SFA::Sin2Pulse>(0., w0[i], Ncyc[i], 0., major_pol[i]);
+                pulses.push_back(pulse);
+            }
+            sfa.pulses.insert(sfa.pulses.end(), pulses.begin(), pulses.end());
             sfa.SetupVectorization();
             sfa.SetupDTM();
 
@@ -157,4 +168,53 @@ int main() {
     Profile::Print();
     Profile::PrintTo("profile.txt");
 #endif
+}
+
+
+bool ReadInput(const std::string& filename) {
+    std::ifstream file(filename);
+    if (!file.is_open())
+        return false;
+
+    nlohmann::json input;
+    file >> input;
+
+    worker_thread = input["threads"].get<size_t>();
+    dt = input["dt"].get<double>();
+    dp = input["dp"].get<double>();
+    pmin = input["pmin"].get<double>();
+    pmax = input["pmax"].get<double>();
+    dff = input["df"].get<double>();
+    ffmin = input["fmin"].get<double>();
+    ffmax = input["fmax"].get<double>();
+    output_filename = input["output_filename"].get<std::string>();
+
+    double t_max = 0;
+    for (auto l : input["lasers"]) {
+        peak_I0_wcm2.push_back(l["intensity"].get<double>());
+        waist_um.push_back(l["beam_waist"].get<double>());
+        g0.push_back(l["porras_factor"].get<double>());
+        Ncyc.push_back(l["cycles"].get<double>());
+        major_pol.push_back({l["polarization"][0].get<double>(), l["polarization"][1].get<double>()});
+        if (l.contains("wavelength")) {
+            Lnm.push_back(l["wavelength"].get<double>());
+            w0.push_back(LnmToAU / Lnm.back());
+        } else if (l.contains("frequency")) {
+            w0.push_back(l["frequency"].get<double>());
+            Lnm.push_back(LnmToAU / w0.back());
+        }
+        t_max = std::max(t_max, Ncyc.back()*2.*Pi/w0.back());
+    }
+
+    auto gas_jet = input["gas_jet"];
+    // gas parameters
+    gas_radius_um = gas_jet["radius_um"].get<double>();
+    gas_length_um = gas_jet["length_um"].get<double>();
+    gas_cells = gas_jet["cells"].get<size_t>();
+    gas_sig_um = gas_jet["sigma_um"].get<double>();
+    gas_density_cm3 = gas_jet["density_cm3"].get<double>();
+
+
+
+    return true;
 }
