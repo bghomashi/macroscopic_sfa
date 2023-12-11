@@ -95,14 +95,15 @@ int main() {
             sfa.dtm = std::make_shared<SFA::ZeroRange>(sfa.Ip);
             std::vector<SFA::Sin2Pulse::Ptr_t> pulses(peak_I0_wcm2.size());
             for (int i = 0; i < peak_I0_wcm2.size(); i++) {
-                auto pulse = std::make_shared<SFA::Sin2Pulse>(0., w0[i], Ncyc[i], 0., major_pol[i]);
-                pulses.push_back(pulse);
+                pulses[i] = std::make_shared<SFA::Sin2Pulse>(0., w0[i], Ncyc[i], 0., major_pol[i]);
             }
             sfa.pulses.insert(sfa.pulses.end(), pulses.begin(), pulses.end());
             sfa.SetupVectorization();
             sfa.SetupDTM();
 
             // --------------macroscopic propagation-----------
+
+
             for (int ic = 0; ic < jobs; ic++) {                                // for each cell
                 auto& cell = gas_jet.cells[ic];
                 auto rj = cell.pos;
@@ -112,6 +113,7 @@ int main() {
                     pulses[i]->CEP = cell.phase[i];
                     pulses[i]->E0 = sqrt(cell.intensity[i]);
                 }
+                
 
                 LOG_DEBUG("SetupFieldArrays");
                 sfa.SetupFieldArrays();
@@ -178,6 +180,8 @@ bool ReadInput(const std::string& filename) {
     std::ifstream file(filename);
     if (!file.is_open())
         return false;
+        
+    LOG_INFO("reading input file");
 
     nlohmann::json input;
     file >> input;
@@ -192,7 +196,14 @@ bool ReadInput(const std::string& filename) {
     ffmax = input["fmax"].get<double>();
     output_filename = input["output_filename"].get<std::string>();
 
-    double t_max = 0;
+    tmax = 0;
+    peak_I0_wcm2.clear();
+    waist_um.clear();
+    g0.clear();
+    Ncyc.clear();
+    Lnm.clear();
+    w0.clear();
+    cep.clear();
     for (auto l : input["lasers"]) {
         peak_I0_wcm2.push_back(l["intensity"].get<double>());
         waist_um.push_back(l["beam_waist_um"].get<double>());
@@ -206,7 +217,7 @@ bool ReadInput(const std::string& filename) {
             w0.push_back(l["frequency"].get<double>());
             Lnm.push_back(LnmToAU / w0.back());
         }
-        t_max = std::max(t_max, Ncyc.back()*2.*Pi/w0.back());
+        tmax = std::max(tmax, Ncyc.back()*2.*Pi/w0.back());
         if (l.contains("cep"))
             cep.push_back(l["cep"].get<double>());
         else
