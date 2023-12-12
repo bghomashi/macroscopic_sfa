@@ -44,8 +44,9 @@ bool ReadInput(const std::string& filename);
 
 int main() {
     Log::set_logger_file("log.txt");
-    LOG_INFO("main()");
-
+#if defined(PROFILING)
+    Profile::Push("total");
+#endif
     if (!ReadInput("input.json"))
         LOG_INFO("input.json not found");
 
@@ -167,7 +168,9 @@ int main() {
     ThreadPool::Shutdown();
 
     Store(output_filename, frequencies, spectrums[0]);
-
+#if defined(PROFILING)
+    Profile::Pop("total");
+#endif
 
 #if defined(PROFILING)
     Profile::Print();
