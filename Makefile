@@ -14,7 +14,7 @@ DEP =	$(subst $(ODIR), $(DDIR), $(OBJ:.o=.d))
 
 
 #preprocessor flags
-CPPFLAGS = -O3  -std=c++14 -msse2 -mavx -mfma -Isrc/ -DLOG_LEVEL=1 -DPROFILING -DSFA_ONLY
+CPPFLAGS = -O3  -std=c++14 -msse2 -mavx -mfma -Isrc/ -DLOG_LEVEL=1 -DPROFILING
 #linker flags (directories)
 #LDFLAGS
 #linker libraries

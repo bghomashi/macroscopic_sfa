@@ -1,4 +1,5 @@
 {
+    "sfa_only" : true,
     "threads" : 4,
     "dt" : 0.2,
     "dp" : 0.0001,
