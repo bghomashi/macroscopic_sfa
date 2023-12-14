@@ -47,6 +47,8 @@ int main() {
     if (!ReadInput("input.json"))
         LOG_INFO("input.json not found");
 
+    LOG_INFO("Go...");
+
     if (sfa_only)
         SFA_MAIN();
     else 

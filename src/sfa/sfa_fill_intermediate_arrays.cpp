@@ -29,6 +29,7 @@ namespace SFA {
     // }
 
     void SFA::FillIntermediateArrays() {
+        LOG_DEBUG("FillIntermediateArrays");
 #if defined(PROFILING)
         Profile::Push("SFA::FillIntermediateArrays");
 #endif
@@ -64,6 +65,9 @@ namespace SFA {
         const __m256d vecIp = _mm256_set1_pd(Ip);
         const __m256d vecPs0 = _mm256_set1_pd(ps[0]);
         const __m256d vecInvdp = _mm256_set1_pd(invdp);
+
+
+        LOG_DEBUG("FillIntermediateArrays " + std::to_string(__LINE__));
 
         for (int itr = 2; itr < ts.size(); itr++) {             // tr
             int idx = index(itr, 0);
@@ -163,7 +167,12 @@ namespace SFA {
 
             }
 
+
+        LOG_DEBUG("FillIntermediateArrays " + std::to_string(__LINE__));
+
+        LOG_DEBUG(std::to_string(sizeof(S0_saddle)));
             for (; iti < itr; iti++) {
+        LOG_DEBUG(std::to_string(iti));
                 double deltat = ts[iti] - ts[itr];
                 dvec2 p = dvec2{ (intA[itr] - intA[iti]).x, (intA[itr] - intA[iti]).y } / deltat;
                 S0_saddle[idx + iti] = (-0.5 * (p.x * p.x + p.y * p.y) + Ip) * deltat - 0.5 * (intAA[itr] - intAA[iti]) - Pi;
@@ -183,6 +192,10 @@ namespace SFA {
             }
 
         }
+        
+
+        LOG_DEBUG("FillIntermediateArrays " + std::to_string(__LINE__));
+
         for (int it = 0; it < ts.size(); it++) {             // tr = ti
             int idx = index(it, it);
             auto dtmtr = DTM({ A[it].x, A[it].y });

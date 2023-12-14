@@ -186,7 +186,11 @@ namespace fast {
 		result = _aligned_malloc(size, align);
 #else 
 		int error;
-		if ((error = posix_memalign(&result, align, size))) result = 0;
+		if((error = posix_memalign(&result, align, size))) {
+			LOG_CRITICAL("Error allocating aligned memory: " + std::to_string(size) + " bytes");
+			LOG_CRITICAL("cannot proceed...");
+			exit(-1);
+		}
 #endif
 		return result;
 	}

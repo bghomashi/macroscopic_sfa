@@ -9,6 +9,8 @@ namespace SFA {
 
         FillIntermediateArrays();
 
+
+        LOG_DEBUG("Done");
         double deltat, action;
         cvec2 dtmItr, dtmIti;
         const double dt = (ts[1] - ts[0]);                  // assuming linear spacing
@@ -25,6 +27,8 @@ namespace SFA {
 #if defined(PROFILING)
         Profile::Push("SFA::Execute2D");
 #endif
+
+        LOG_DEBUG("loop");
         for (int itr = 2; itr < NT; itr++) {
             int l = (itr - 2) / 4;
             int r = (itr - 2) % 4;

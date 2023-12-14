@@ -20,7 +20,7 @@ int SFA_MAIN() {
     c2vector spectrum(frequencies.size());
 
     // ----------- set up sfa ------------------------
-    LOG_DEBUG("set up sfa");
+    LOG_INFO("set up sfa");
     SFA::SFA sfa;
     sfa.ts = Range(dt, tmax);
     sfa.ps = Range(dp, pmax, pmin);
@@ -37,11 +37,11 @@ int SFA_MAIN() {
     sfa.SetupVectorization();
     sfa.SetupDTM();
 
-    LOG_DEBUG("SetupFieldArrays");
+    LOG_INFO("SetupFieldArrays");
     sfa.SetupFieldArrays();
-    LOG_DEBUG("Execute2D");
+    LOG_INFO("Execute2D");
     sfa.Execute2D();
-    LOG_DEBUG("Spectrum");
+    LOG_INFO("Spectrum");
     sfa.Spectrum();
 
     //sfa.FreeVectorization();
@@ -50,6 +50,6 @@ int SFA_MAIN() {
     ThreadPool::Shutdown();
 
     Store(output_filename, frequencies, sfa.hhg);
-    
+
     return 0;
 }
