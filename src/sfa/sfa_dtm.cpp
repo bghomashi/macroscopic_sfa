@@ -1,4 +1,5 @@
 #include "sfa.h"
+#include "utility/logger.h"
 
 namespace SFA {
     cvec2 SFA::DTM(const dvec2& p) {
@@ -11,7 +12,7 @@ namespace SFA {
         int j = i + 1;
         if (di == double(i))
             return dtm_el[i] * p;
-
+            
         double f = (l - ps[i]) * invdp;
         complex dtm = dtm_el[j] * f + (1. - f) * dtm_el[i];
 

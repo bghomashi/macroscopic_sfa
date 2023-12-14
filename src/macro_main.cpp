@@ -1,3 +1,10 @@
+#if !defined(SFA_ONLY)
+#define MACRO_MAIN main
+#else
+#define MACRO_MAIN macro_main
+#endif
+
+
 #include "maths/maths.h"
 #include "maths/vec2.h"
 #include "sfa/sfa.h"
@@ -13,36 +20,36 @@
 #include <iostream>
 #include <fstream>
 
-size_t worker_thread = 16;
+static size_t worker_thread = 16;
 // laser parameters
-dvector peak_I0_wcm2 = {1e14};
-dvector waist_um = {30};
-dvector Lnm = {800};
-dvector g0 = {0};
-dvector Ncyc = {10};
-dvector w0 = {LnmToAU / Lnm.back()};
-d2vector major_pol = {{1., 0.}};
-dvector cep = {0};
+static dvector peak_I0_wcm2 = {1e14};
+static dvector waist_um = {30};
+static dvector Lnm = {800};
+static dvector g0 = {0};
+static dvector Ncyc = {10};
+static dvector w0 = {LnmToAU / Lnm.back()};
+static d2vector major_pol = {{1., 0.}};
+static dvector cep = {0};
 
 // gas parameters
-double gas_radius_um = 500;
-double gas_length_um = 6 * waist_um.back();
-size_t gas_cells = 100000;
-double gas_sig_um = 800;
-double gas_density_cm3 = 1;
+static double gas_radius_um = 500;
+static double gas_length_um = 6 * waist_um.back();
+static size_t gas_cells = 100000;
+static double gas_sig_um = 800;
+static double gas_density_cm3 = 1;
 
-double dt = 0.2;
-double tmax = (2. * Pi / w0.back()) * Ncyc.back();
-double dp = 0.00001;
-double pmin = 0, pmax = 3;
-double dff = 0.01;
-double ffmin = 0. * w0.back(), ffmax = 40. * w0.back();
+static double dt = 0.2;
+static double tmax = (2. * Pi / w0.back()) * Ncyc.back();
+static double dp = 0.00001;
+static double pmin = 0, pmax = 3;
+static double dff = 0.01;
+static double ffmin = 0. * w0.back(), ffmax = 40. * w0.back();
 
-std::string output_filename = "out.dat";
+static std::string output_filename = "out.dat";
 
-bool ReadInput(const std::string& filename);
+static bool ReadInput(const std::string& filename);
 
-int main() {
+int MACRO_MAIN() {
     Log::set_logger_file("log.txt");
 #if defined(PROFILING)
     Profile::Push("total");
@@ -176,6 +183,7 @@ int main() {
     Profile::Print();
     Profile::PrintTo("profile.txt");
 #endif
+    return 0;
 }
 
 

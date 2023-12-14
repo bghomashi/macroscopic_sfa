@@ -16,7 +16,8 @@
             "porras_factor" : 0,
             "cycles" : 10,
             "polarization" : [1, 0],
-            "wavelength_nm" : 800
+            "wavelength_nm" : 800,
+            "cep" : 0
         }
     ],
     "gas_jet" : {
