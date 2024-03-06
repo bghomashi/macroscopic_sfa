@@ -1,6 +1,6 @@
 {
     "sfa_only" : true,
-    "threads" : 4,
+    "threads" : 1,
     "dt" : 0.05,
     "dp" : 0.0001,
     "pmin" : 0,
@@ -18,6 +18,15 @@
             "cycles" : 10,
             "polarization" : [1, 0],
             "wavelength_nm" : 800,
+            "cep" : 0
+        },
+        {
+            "intensity" : 1e13,
+            "beam_waist_um" : 30,
+            "porras_factor" : 0,
+            "cycles" : 20,
+            "polarization" : [0, 1],
+            "wavelength_nm" : 400,
             "cep" : 0
         }
     ],

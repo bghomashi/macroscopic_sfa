@@ -1,6 +1,8 @@
 #include "sin2pulse.h"
 #include "maths/maths.h"
 
+#include <iostream>
+
 namespace SFA {
     Sin2Pulse::Sin2Pulse(double cep, double w0, double N, double E0, const dvec2& pol)
         : CEP(cep), w0(w0), N(N), E0(E0), major_pol(pol)
@@ -12,6 +14,7 @@ namespace SFA {
         // double duration = 2*Pi*N / w0;
         // double phase = cep - w0*duration/2.;
         double phase = CEP - Pi * N;
+
         return (E0 / w0) * major_pol * sin(0.5 * w0 * t / N) * sin(0.5 * w0 * t / N) * sin(w0 * t + phase);
     }
     // electric field

@@ -28,6 +28,7 @@ int SFA_MAIN() {
     sfa.Ip = 0.5;
     sfa.dtm = std::make_shared<SFA::ZeroRange>(sfa.Ip);
     std::vector<SFA::Sin2Pulse::Ptr_t> pulses(peak_I0_wcm2.size());
+    
     for (int i = 0; i < peak_I0_wcm2.size(); i++) {
         pulses[i] = std::make_shared<SFA::Sin2Pulse>(0., w0[i], Ncyc[i], 0., major_pol[i]);
         pulses[i]->CEP = cep[i];

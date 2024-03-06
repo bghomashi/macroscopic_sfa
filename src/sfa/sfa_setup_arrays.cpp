@@ -1,5 +1,8 @@
 #include "sfa.h"
 
+#include "laser/sin2pulse.h"
+#include <iostream>
+
 namespace SFA {
     void SFA::SetupDTM() {
         dtm_el.resize(ps.size());
@@ -28,6 +31,7 @@ namespace SFA {
                 // THIS NEEDS TO BE FIXED
                 intAA[i] += p->intAA(t);         // this assumes orthogonal pulses
                 //dots[i] = Dot(A[i], A[i]);     // store A.A for integration
+                std::cout << A[i].x << " " << A[i].y << std::endl;
             }
             // intAA = TrapzInd<double>(ts, dots);
         }

@@ -91,6 +91,7 @@ bool ReadInput(const std::string& filename) {
     waist_um.clear();
     g0.clear();
     Ncyc.clear();
+    major_pol.clear();
     Lnm.clear();
     w0.clear();
     cep.clear();
@@ -99,7 +100,13 @@ bool ReadInput(const std::string& filename) {
         waist_um.push_back(l["beam_waist_um"].get<double>());
         g0.push_back(l["porras_factor"].get<double>());
         Ncyc.push_back(l["cycles"].get<double>());
-        major_pol.push_back({l["polarization"][0].get<double>(), l["polarization"][1].get<double>()});
+        major_pol.push_back({l["polarization"][0].get<double>(), 
+                             l["polarization"][1].get<double>()});
+        
+
+        std::cout << "Read " << peak_I0_wcm2.back() << std::endl;
+        std::cout << "Read " << major_pol.back().x << " " << major_pol.back().y << std::endl;
+
         if (l.contains("wavelength_nm")) {
             Lnm.push_back(l["wavelength_nm"].get<double>());
             w0.push_back(LnmToAU / Lnm.back());
@@ -121,8 +128,6 @@ bool ReadInput(const std::string& filename) {
     gas_cells = gas_jet["cells"].get<size_t>();
     gas_sig_um = gas_jet["sigma_um"].get<double>();
     gas_density_cm3 = gas_jet["density_cm3"].get<double>();
-
-
 
     return true;
 }
