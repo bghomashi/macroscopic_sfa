@@ -104,8 +104,6 @@ bool ReadInput(const std::string& filename) {
                              l["polarization"][1].get<double>()});
         
 
-        std::cout << "Read " << peak_I0_wcm2.back() << std::endl;
-        std::cout << "Read " << major_pol.back().x << " " << major_pol.back().y << std::endl;
 
         if (l.contains("wavelength_nm")) {
             Lnm.push_back(l["wavelength_nm"].get<double>());
