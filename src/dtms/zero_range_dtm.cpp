@@ -9,7 +9,7 @@ namespace SFA {
         const static double srtK = sqrt(sqrt(2. * Ip));
         const double mag = 1. / (Dot(p, p) + Ip2);
 
-        return (-2.i * (srtK * mag * mag)) * p / Pi;
+        return (-2.i * (srtK * mag * mag)) * p;
 
     }
 }
