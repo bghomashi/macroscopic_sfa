@@ -107,7 +107,8 @@ namespace SFA {
                 }
             }
             
-            
+
+std::cout << "adad" << std::endl;  
 exit(0);
 
             for (; iti < itr; iti++) {
