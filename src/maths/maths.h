@@ -15,6 +15,7 @@ const double Pi         = 3.1415926535897932384626433832795;            // pi
 const double Pi_2       = 1.5707963267948966192313216916398;            // pi/2
 const double inv2Pi     = 0.15915494309189533576888376337251;           // 1/(2Pi)
 const double invPi_2    = 0.63661977236758134307553505349006;           // 1/(pi/2)
+const double sqrtPi     = 1.7724538509055160272981674833411;             // sqrt(pi)
 const double sqrtPi2    = 2.506628274631000502415765284811;             // sqrt(2*pi)
 const double sqrtPi_2   = 1.2533141373155002512078826424055;            // sqrt(pi/2)
 const double C          = 137.0;                    // speed of light in AU
