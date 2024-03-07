@@ -48,6 +48,9 @@ std::cout << "FillIntermediateArrays" << std::endl;
 
         LOG_DEBUG("FillIntermediateArrays " + std::to_string(__LINE__));
         Log::flush();
+for (int i = 19900; i < 20000; i++)
+std::cout << i <<" "<< ts[i] << std::endl;
+exit(0);
         for (int itr = 2; itr < ts.size(); itr++) {             // tr
 if (itr >= 21090) std::cout << " " << std::to_string(itr) << std::endl;
             int idx = index(itr, 0);
