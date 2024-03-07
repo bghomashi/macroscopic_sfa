@@ -49,6 +49,7 @@ std::cout << "FillIntermediateArrays" << std::endl;
         LOG_DEBUG("FillIntermediateArrays " + std::to_string(__LINE__));
         Log::flush();
         for (int itr = 2; itr < ts.size(); itr++) {             // tr
+std::cout << " " << std::to_string(itr) << std::endl;
             int idx = index(itr, 0);
             int l = (itr - 2) / 4;
             int iti = 1;
@@ -147,7 +148,6 @@ std::cout << "FillIntermediateArrays" << std::endl;
             }
 
 
-std::cout << "FillIntermediateArrays " << std::to_string(__LINE__) << std::endl;
         LOG_DEBUG("FillIntermediateArrays " + std::to_string(__LINE__));
 std::cout << " " << std::to_string(itr) << std::endl;
 
