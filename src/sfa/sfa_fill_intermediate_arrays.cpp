@@ -2,32 +2,9 @@
 #include "maths/fast_maths.h"
 #include "utility/profiler.h"
 
-namespace SFA {
-    // inline void dtm4packed(const double* f,
-    //     const double* dtmtimagi,
-    //     const double* dtmtreali,
-    //     const double* dtmtimagj,
-    //     const double* dtmtrealj,
-    //     const double* Px,
-    //     const double* Py,
-    //     double* dtm_it_imag_x,
-    //     double* dtm_it_imag_y,
-    //     double* dtm_it_real_x,
-    //     double* dtm_it_real_y) {
-    //     auto f2 = _mm256_sub_pd(fast::one, *(__m256d*)f);
-    //     auto areal = _mm256_mul_pd(*(__m256d*)dtmtimagj, *(__m256d*)f);
-    //     auto aimag = _mm256_mul_pd(*(__m256d*)dtmtrealj, *(__m256d*)f);
-    //     auto breal = _mm256_mul_pd(*(__m256d*)dtmtimagi, f2);
-    //     auto bimag = _mm256_mul_pd(*(__m256d*)dtmtreali, f2);
-    //     auto imag = _mm256_add_pd(aimag, bimag);
-    //     auto real = _mm256_add_pd(areal, breal);
-    //     auto mul = _mm256_mul_pd(imag, *(__m256d*)Px);
-    //     _mm256_store_pd(dtm_it_imag_x, mul);
-    //     // _mm256_store_pd(dtm_it_imag_y, _mm256_mul_pd(imag, *(__m256d*)Py));
-    //     // _mm256_store_pd(dtm_it_real_x, _mm256_mul_pd(real, *(__m256d*)Px));
-    //     // _mm256_store_pd(dtm_it_real_y, _mm256_mul_pd(real, *(__m256d*)Py));
-    // }
+#include <iostream>
 
+namespace SFA {
     void SFA::FillIntermediateArrays() {
         LOG_DEBUG("FillIntermediateArrays");
 #if defined(PROFILING)
@@ -66,6 +43,9 @@ namespace SFA {
         const __m256d vecPs0 = _mm256_set1_pd(ps[0]);
         const __m256d vecInvdp = _mm256_set1_pd(invdp);
 
+
+std::cout << "adad" << std::endl;  
+exit(0);
 
         LOG_DEBUG("FillIntermediateArrays " + std::to_string(__LINE__));
 
