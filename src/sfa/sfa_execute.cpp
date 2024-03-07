@@ -8,6 +8,8 @@
 
 namespace SFA {
 	void SFA::Execute2D() {
+        exit(0);
+        
         int NT = int(ts.size());
         dipole.resize(NT, { 0,0 });
 
