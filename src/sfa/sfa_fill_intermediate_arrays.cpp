@@ -149,6 +149,7 @@ std::cout << "FillIntermediateArrays" << std::endl;
 
 std::cout << "FillIntermediateArrays " << std::to_string(__LINE__) << std::endl;
         LOG_DEBUG("FillIntermediateArrays " + std::to_string(__LINE__));
+std::cout << " " << std::to_string(itr) << std::endl;
 
         LOG_DEBUG(std::to_string(sizeof(S0_saddle)));
             for (; iti < itr; iti++) {
