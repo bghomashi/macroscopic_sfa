@@ -13,6 +13,9 @@ namespace SFA {
 
         FillIntermediateArrays();
 
+std::cout << "adad" << std::endl;  
+exit(0);
+
         LOG_DEBUG("Done");
         double deltat, action;
         cvec2 dtmItr, dtmIti;
