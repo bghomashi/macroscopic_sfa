@@ -127,6 +127,8 @@ namespace SFA {
         dip[0] = cvec2{ 0,0 };
         dip[1] = cvec2{ 0,0 };
 
+        exit(0);
+
         // reduction - sum across ti
         for (int itr = 2; itr < NT; itr++) {
             int idx = index(itr, 0);
@@ -154,8 +156,6 @@ namespace SFA {
 #if defined(PROFILING)
         Profile::Pop("SFA::Execute2D");
 #endif
-
-        exit(0);
 
         // std::ofstream file("dipole.dat");
         // file << std::setprecision(8) << std::scientific;
