@@ -12,9 +12,6 @@ namespace SFA {
         dipole.resize(NT, { 0,0 });
 
 
-std::cout << "adad" << std::endl;  
-exit(0);
-
         FillIntermediateArrays();
 
 std::cout << "adad" << std::endl;  
