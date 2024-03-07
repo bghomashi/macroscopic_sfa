@@ -2,6 +2,10 @@
 #include "maths/fast_maths.h"
 #include "utility/profiler.h"
 
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
 namespace SFA {
 	void SFA::Execute2D() {
         int NT = int(ts.size());
@@ -151,6 +155,13 @@ namespace SFA {
 #if defined(PROFILING)
         Profile::Pop("SFA::Execute2D");
 #endif
+
+        std::ofstream file("dipole.dat");
+        file << std::setprecision(8) << std::scientific;
+        for (int itr = 0; itr < NT; itr++) {
+            file << ts[itr] << " "  << dipole[itr].x << " " << dipole[itr].y;
+        }
+        exit(0);
 	}
 
 }

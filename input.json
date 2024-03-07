@@ -18,7 +18,8 @@
             "cycles" : 10,
             "polarization" : [1, 0],
             "wavelength_nm" : 800,
-            "cep" : 0
+            "cep" : 0,
+            "cycles_delay" : 20
         },
         {
             "intensity" : 1e13,

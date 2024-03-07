@@ -2,6 +2,8 @@
 
 #include "laser/sin2pulse.h"
 #include <iostream>
+#include <fstream>
+#include <iomanip>
 
 namespace SFA {
     void SFA::SetupDTM() {
@@ -35,5 +37,11 @@ namespace SFA {
             }
             // intAA = TrapzInd<double>(ts, dots);
         }
+        // std::ofstream file("pulse.dat");
+        // file << std::setprecision(8) << std::scientific;
+        // for (int i = 0; i < ts.size(); i++) {
+        //     file << ts[i] << " " <<  A[i].x << " " << A[i].y << std::endl;
+        // }
+        // exit(0);
     }
 }
