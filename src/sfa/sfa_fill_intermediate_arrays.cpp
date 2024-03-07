@@ -44,11 +44,10 @@ namespace SFA {
         const __m256d vecInvdp = _mm256_set1_pd(invdp);
 
 
-std::cout << "adad" << std::endl;
-exit(0);
+std::cout << "FillIntermediateArrays" << std::endl;
 
         LOG_DEBUG("FillIntermediateArrays " + std::to_string(__LINE__));
-
+        Log::flush();
         for (int itr = 2; itr < ts.size(); itr++) {             // tr
             int idx = index(itr, 0);
             int l = (itr - 2) / 4;

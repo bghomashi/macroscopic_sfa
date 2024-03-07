@@ -32,4 +32,7 @@ namespace Log {
     void set_logger_file(const std::string& log_file) {
         s_logger = std::ofstream(log_file);
     }
+    void flush() {
+        s_logger << std::endl;
+    }
 }

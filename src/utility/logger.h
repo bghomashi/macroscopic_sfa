@@ -20,6 +20,7 @@ namespace Log {
     void critical(const std::string& text);
     void debug(const std::string& text);
     void set_logger_file(const std::string& log_file);
+    void flush();
 }
 
 #if LOG_LEVEL >= LOG_LEVEL_INFO
