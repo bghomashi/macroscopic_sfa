@@ -122,12 +122,13 @@ namespace SFA {
                 realy[idx] = std::real(out.y);
                 imagy[idx] = std::imag(out.y);
             }
+
+exit(0);
+
         }
 
         dip[0] = cvec2{ 0,0 };
         dip[1] = cvec2{ 0,0 };
-
-        exit(0);
 
         // reduction - sum across ti
         for (int itr = 2; itr < NT; itr++) {
