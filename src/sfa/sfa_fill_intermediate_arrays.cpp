@@ -98,6 +98,7 @@ if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
                     dtmtiimagj[i] = std::imag(dtm_el[int(tiDi[i]) + 1]);
                 }
 
+if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
                 // dtmtr
                 {
                     auto f2 = _mm256_sub_pd(fast::one, *(__m256d*)trf);
@@ -119,6 +120,7 @@ if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
                         dtm_itr_imag_y[idx + iti + i] = temp_ix[i];
                     }
                 }
+if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
                 {
                     auto f2 = _mm256_sub_pd(fast::one, *(__m256d*)tif);
                     auto areal = _mm256_mul_pd(*(__m256d*)dtmtiimagj, *(__m256d*)tif);
@@ -139,6 +141,7 @@ if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
                     }
                 }
                 
+if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
                 // ------------------ S0 
                 auto H0 = _mm256_add_pd(_mm256_mul_pd(fast::negHalf, *(__m256d*)PP), vecIp);  // -0.5*(P^2) + Ip
                 auto S0 = _mm256_mul_pd(H0, *(__m256d*)delt);
@@ -148,6 +151,7 @@ if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
                 for (int i = 0; i < 4; i++) 
                         S0_saddle[idx + iti + i] = temp_rx[i];
 
+if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
             }
 
 
