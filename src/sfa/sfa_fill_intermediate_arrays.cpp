@@ -84,7 +84,7 @@ if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
 
 if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
                 for (int i = 0; i < 4; i++) {
-if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
+if (itr >= 21090) std::cout << trDi[i] << " " << tiDi[i]<< std::endl;
                     trf[i] = (trL[i] - ps[int(trDi[i])]) * invdp;
                     tif[i] = (tiL[i] - ps[int(tiDi[i])]) * invdp;
 
