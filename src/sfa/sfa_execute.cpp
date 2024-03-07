@@ -7,14 +7,13 @@
 #include <iomanip>
 
 namespace SFA {
-	void SFA::Execute2D() {
-        exit(0);
-        
+	void SFA::Execute2D() {        
         int NT = int(ts.size());
         dipole.resize(NT, { 0,0 });
 
         FillIntermediateArrays();
 
+        exit(0);
 
         LOG_DEBUG("Done");
         double deltat, action;
