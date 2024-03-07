@@ -13,8 +13,6 @@ namespace SFA {
 
         FillIntermediateArrays();
 
-        exit(0);
-
         LOG_DEBUG("Done");
         double deltat, action;
         cvec2 dtmItr, dtmIti;
@@ -156,6 +154,8 @@ namespace SFA {
 #if defined(PROFILING)
         Profile::Pop("SFA::Execute2D");
 #endif
+
+        exit(0);
 
         // std::ofstream file("dipole.dat");
         // file << std::setprecision(8) << std::scientific;
