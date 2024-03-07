@@ -82,6 +82,7 @@ if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
                 _mm256_store_pd(trDi, _mm256_mul_pd(_mm256_sub_pd(*(__m256d*)trL, vecPs0), vecInvdp));
                 _mm256_store_pd(tiDi, _mm256_mul_pd(_mm256_sub_pd(*(__m256d*)tiL, vecPs0), vecInvdp));
 
+if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
                 for (int i = 0; i < 4; i++) {
                     trf[i] = (trL[i] - ps[int(trDi[i])]) * invdp;
                     tif[i] = (tiL[i] - ps[int(tiDi[i])]) * invdp;
