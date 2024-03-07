@@ -156,12 +156,12 @@ namespace SFA {
         Profile::Pop("SFA::Execute2D");
 #endif
 
-        std::ofstream file("dipole.dat");
-        file << std::setprecision(8) << std::scientific;
-        for (int itr = 0; itr < NT; itr++) {
-            file << ts[itr] << " "  << dipole[itr].x << " " << dipole[itr].y;
-        }
-        exit(0);
+        // std::ofstream file("dipole.dat");
+        // file << std::setprecision(8) << std::scientific;
+        // for (int itr = 0; itr < NT; itr++) {
+        //     file << ts[itr] << " "  << dipole[itr].x << " " << dipole[itr].y;
+        // }
+        // exit(0);
 	}
 
 }
