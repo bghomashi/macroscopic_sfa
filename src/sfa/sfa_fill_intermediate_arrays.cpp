@@ -49,12 +49,14 @@ std::cout << "FillIntermediateArrays" << std::endl;
         LOG_DEBUG("FillIntermediateArrays " + std::to_string(__LINE__));
         Log::flush();
         for (int itr = 2; itr < ts.size(); itr++) {             // tr
-std::cout << " " << std::to_string(itr) << std::endl;
+if (itr >= 21090) std::cout << " " << std::to_string(itr) << std::endl;
             int idx = index(itr, 0);
             int l = (itr - 2) / 4;
             int iti = 1;
 
             for (iti = 1; iti < l * 4; iti += 4) {             // ti
+if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
+
                 for (int i = 0; i < 4; i++) {
                     delt[i] = ts[iti + i] - ts[itr];
                     dvec2 p = dvec2{ (intA[itr] - intA[iti + i]).x, (intA[itr] - intA[iti + i]).y } / delt[i];
@@ -67,6 +69,7 @@ std::cout << " " << std::to_string(itr) << std::endl;
                     tiPy[i] = p.y + A[iti].y;
                 }
 
+if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
                 _mm256_store_pd(trL, _mm256_sqrt_pd(_mm256_add_pd(
                     _mm256_mul_pd(*(__m256d*)trPx, *(__m256d*)trPx),
                     _mm256_mul_pd(*(__m256d*)trPy, *(__m256d*)trPy)
@@ -149,7 +152,7 @@ std::cout << " " << std::to_string(itr) << std::endl;
 
 
         LOG_DEBUG("FillIntermediateArrays " + std::to_string(__LINE__));
-std::cout << " " << std::to_string(itr) << std::endl;
+if (itr >= 21090) std::cout << " " << std::to_string(itr) << std::endl;
 
         LOG_DEBUG(std::to_string(sizeof(S0_saddle)));
             for (; iti < itr; iti++) {
