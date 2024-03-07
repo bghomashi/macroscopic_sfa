@@ -106,6 +106,10 @@ namespace SFA {
                     imagy[idx + iti + i] = temp_iy[i];
                 }
             }
+            
+            
+exit(0);
+
             for (; iti < itr; iti++) {
                 deltat = ts[itr] - ts[iti];
 
@@ -122,8 +126,6 @@ namespace SFA {
                 realy[idx] = std::real(out.y);
                 imagy[idx] = std::imag(out.y);
             }
-
-exit(0);
 
         }
 
