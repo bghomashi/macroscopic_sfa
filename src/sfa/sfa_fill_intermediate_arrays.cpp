@@ -67,6 +67,10 @@ if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
                     trPy[i] = p.y + A[itr].y;
                     tiPx[i] = p.x + A[iti].x;
                     tiPy[i] = p.y + A[iti].y;
+                    
+if (itr >= 21090) std::cout << "p " << p.x << " " << p.y << std::endl;
+if (itr >= 21090) std::cout << "ti " << A[itr].x << " " << A[itr].y << std::endl;
+if (itr >= 21090) std::cout << "ti " << A[iti].x << " " << A[iti].y << std::endl;
                 }
 
 if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
