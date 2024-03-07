@@ -17,6 +17,7 @@ dvector Ncyc = {10};
 dvector w0 = {LnmToAU / Lnm.back()};
 d2vector major_pol = {{1., 0.}};
 dvector cep = {0};
+dvector cycles_delay = {0};
 
 // gas parameters
 double gas_radius_um = 500;
@@ -95,6 +96,8 @@ bool ReadInput(const std::string& filename) {
     Lnm.clear();
     w0.clear();
     cep.clear();
+    cycles_delay.clear();
+
     for (auto l : input["lasers"]) {
         peak_I0_wcm2.push_back(l["intensity"].get<double>());
         waist_um.push_back(l["beam_waist_um"].get<double>());
@@ -105,6 +108,11 @@ bool ReadInput(const std::string& filename) {
         
 
 
+        if (l.contains("cycles_delay")) {
+            cycles_delay.push_back(l["cycles_delay"].get<double>());
+        } else {
+            cycles_delay.push_back(0);
+        }
         if (l.contains("wavelength_nm")) {
             Lnm.push_back(l["wavelength_nm"].get<double>());
             w0.push_back(LnmToAU / Lnm.back());

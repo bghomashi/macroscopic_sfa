@@ -12,6 +12,7 @@ extern dvector Ncyc;
 extern dvector w0;
 extern d2vector major_pol;
 extern dvector cep;
+extern dvector cycles_delay;
 
 // gas parameters
 extern double gas_radius_um;
