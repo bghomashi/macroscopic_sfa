@@ -110,6 +110,9 @@ bool ReadInput(const std::string& filename) {
 
         if (l.contains("cycles_delay")) {
             cycles_delay.push_back(l["cycles_delay"].get<double>());
+            if (cycles_delay.back() < 0) {
+                LOG_CRITICAL("negative delays not yet supported.");
+            }
         } else {
             cycles_delay.push_back(0);
         }
@@ -120,7 +123,7 @@ bool ReadInput(const std::string& filename) {
             w0.push_back(l["frequency"].get<double>());
             Lnm.push_back(LnmToAU / w0.back());
         }
-        tmax = std::max(tmax, Ncyc.back()*2.*Pi/w0.back());
+        tmax = std::max(tmax, (cycles_delay.back() + Ncyc.back())*2.*Pi/w0.back());
         if (l.contains("cep"))
             cep.push_back(l["cep"].get<double>());
         else
