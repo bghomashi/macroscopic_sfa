@@ -79,7 +79,7 @@ if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
                     _mm256_mul_pd(*(__m256d*)tiPy, *(__m256d*)tiPy)
                 )));
 
-if (itr >= 21090) std::cout << trL[0] << " " << tiL[0]<< std::endl;
+if (itr >= 21090) std::cout << "asdasd " << trL[0] << " " << tiL[0]<< std::endl;
                 _mm256_store_pd(trDi, _mm256_mul_pd(_mm256_sub_pd(*(__m256d*)trL, vecPs0), vecInvdp));
                 _mm256_store_pd(tiDi, _mm256_mul_pd(_mm256_sub_pd(*(__m256d*)tiL, vecPs0), vecInvdp));
 
