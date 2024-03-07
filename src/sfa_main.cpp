@@ -23,6 +23,9 @@ int SFA_MAIN() {
     LOG_INFO("set up sfa");
     SFA::SFA sfa;
     sfa.ts = Range(dt, tmax);
+// for (int i = 19900; i < 20000; i++)
+// std::cout << i <<" "<<sfa.ts[i] << std::endl;
+// exit(0);
     sfa.ps = Range(dp, pmax, pmin);
     sfa.frequencies = Range(dff, ffmax, ffmin);
     sfa.Ip = 0.5;

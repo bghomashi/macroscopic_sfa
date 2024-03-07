@@ -57,8 +57,7 @@ if (itr >= 21090) std::cout << " " << std::to_string(itr) << std::endl;
             for (iti = 1; iti < l * 4; iti += 4) {             // ti
 
                 for (int i = 0; i < 4; i++) {
-if (itr >= 21090) std::cout << "iti+i - itr " << std::to_string(iti + i) << "-" << std::to_string(itr) << std::endl;
-if (itr >= 21090) std::cout << "iti+i - itr " << std::to_string(ts[iti + i]) << "-" << std::to_string(ts[itr]) << std::endl;
+if (itr >= 21090) std::cout << "iti+i - itr " << iti + i << " " << ts[iti + i] << std::endl;
 
                     delt[i] = ts[iti + i] - ts[itr];
                     dvec2 p = dvec2{ (intA[itr] - intA[iti + i]).x, (intA[itr] - intA[iti + i]).y } / delt[i];
