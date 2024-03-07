@@ -48,9 +48,9 @@ std::cout << "FillIntermediateArrays" << std::endl;
 
         LOG_DEBUG("FillIntermediateArrays " + std::to_string(__LINE__));
         Log::flush();
-for (int i = 19900; i < 20000; i++)
-std::cout << i <<" "<< ts[i] << std::endl;
-exit(0);
+// for (int i = 19900; i < 20000; i++)
+// std::cout << i <<" "<< ts[i] << std::endl;
+// exit(0);
         for (int itr = 2; itr < ts.size(); itr++) {             // tr
 if (itr >= 21090) std::cout << " " << std::to_string(itr) << std::endl;
             int idx = index(itr, 0);
@@ -61,8 +61,8 @@ if (itr >= 21090) std::cout << " " << std::to_string(itr) << std::endl;
 
                 for (int i = 0; i < 4; i++) {
 if (itr >= 21090) std::cout << "iti+i - itr " << iti + i 
-                            << " " << ts[21090]
-                            << " " << ts[iti + i] << std::endl;
+                            << " " << ts[21091]
+                            << " " << ts[19977] << std::endl;
 
                     delt[i] = ts[iti + i] - ts[itr];
                     dvec2 p = dvec2{ (intA[itr] - intA[iti + i]).x, (intA[itr] - intA[iti + i]).y } / delt[i];
