@@ -31,6 +31,9 @@ namespace SFA {
         Profile::Push("SFA::Execute2D");
 #endif
 
+std::cout << "adad" << std::endl;  
+exit(0);
+
         LOG_DEBUG("loop");
         for (int itr = 2; itr < NT; itr++) {
             int l = (itr - 2) / 4;
