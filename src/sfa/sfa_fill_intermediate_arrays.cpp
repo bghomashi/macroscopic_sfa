@@ -55,7 +55,7 @@ if (itr >= 21090) std::cout << " " << std::to_string(itr) << std::endl;
             int iti = 1;
 
             for (iti = 1; iti < l * 4; iti += 4) {             // ti
-if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
+if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << " " << std::to_string(iti) << std::endl;
 
                 for (int i = 0; i < 4; i++) {
                     delt[i] = ts[iti + i] - ts[itr];
