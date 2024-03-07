@@ -87,11 +87,13 @@ if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
                     trf[i] = (trL[i] - ps[int(trDi[i])]) * invdp;
                     tif[i] = (tiL[i] - ps[int(tiDi[i])]) * invdp;
 
+if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
                     dtmtrreali[i] = std::real(dtm_el[int(trDi[i])]);
                     dtmtrrealj[i] = std::real(dtm_el[int(trDi[i]) + 1]);
                     dtmtrimagi[i] = -std::imag(dtm_el[int(trDi[i])]);
                     dtmtrimagj[i] = -std::imag(dtm_el[int(trDi[i]) + 1]);
 
+if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
 
                     dtmtireali[i] = std::real(dtm_el[int(tiDi[i])]);
                     dtmtirealj[i] = std::real(dtm_el[int(tiDi[i]) + 1]);
