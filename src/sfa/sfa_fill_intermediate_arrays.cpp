@@ -45,6 +45,7 @@ namespace SFA {
 
 
 std::cout << "adad" << std::endl;
+exit(0);
 
         LOG_DEBUG("FillIntermediateArrays " + std::to_string(__LINE__));
 
