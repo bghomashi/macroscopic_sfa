@@ -38,9 +38,10 @@ namespace SFA {
         Profile::Push("SFA::Execute2D");
 #endif
         // for each recombination time
-std::cout << "itr : " << itr << " line: " << __LINE__ << std::endl;
 
         for (int itr = 2; itr < NT; itr++) {
+std::cout << "itr : " << itr << " line: " << __LINE__ << std::endl;
+
             realx[itr] = 0;
             realy[itr] = 0;
             imagx[itr] = 0;
