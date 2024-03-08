@@ -40,7 +40,6 @@ namespace SFA {
         // for each recombination time
 
         for (int itr = 2; itr < NT; itr++) {
-std::cout << "itr : " << itr << "/" << NT << " line: " << __LINE__ << std::endl;
 
             realx[itr] = 0;
             realy[itr] = 0;
@@ -122,7 +121,6 @@ std::cout << "itr : " << itr << "/" << NT << " line: " << __LINE__ << std::endl;
             }
             
 
-std::cout << "itr : " << itr << "/" << NT << " line: " << __LINE__ << std::endl;
             for (; iti < itr; iti++) {
                 deltat = ts[itr] - ts[iti];
                 action = ComputeAction(itr, iti);
@@ -146,7 +144,7 @@ std::cout << "itr : " << itr << "/" << NT << " line: " << __LINE__ << std::endl;
         dip[1] = cvec2{ 0,0 };
 
         // reduction - sum across ti
-        // for (int itr = 2; itr < NT; itr++) {
+        for (int itr = 2; itr < NT; itr++) {
         //     __m256d ptrX = _mm256_setzero_pd();
 
         //     //int iti;
@@ -161,7 +159,9 @@ std::cout << "itr : " << itr << "/" << NT << " line: " << __LINE__ << std::endl;
         //     _mm256_store_pd(temp_rx, ptrX);
         //     dip[itr].x = complex(temp_rx[0], temp_rx[1]);
         //     dip[itr].y = complex(temp_rx[2], temp_rx[3]);
-        // }
+            dip[itr].x = complex(realx[itr], imagx[itr]);
+            dip[itr].y = complex(realy[itr], imagy[itr]);
+        }
 
         for (int itr = 0; itr < NT; itr++) {
             dip[itr] *= dt;
