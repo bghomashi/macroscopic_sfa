@@ -55,6 +55,8 @@ namespace SFA {
                     EEy[i] = E[iti + i].y;
                 }
 
+std::cout << "line: " << __LINE__ << std::endl;
+
                 __m256d action;
                 ComputeActionFast(itr, iti, (double*)&action);
                 __m256d Ex      = *(__m256d*)EEx,
@@ -66,6 +68,7 @@ namespace SFA {
                                 dtmTrRealx, dtmTrRealy, dtmTrImagx, dtmTrImagy,
                                 dtmTiRealx, dtmTiRealy, dtmTiImagx, dtmTiImagy);
 
+std::cout << "line: " << __LINE__ << std::endl;
                 // ----------------- compute coeff ------------------
                 __m256d coeff_real = _mm256_div_pd(fast::sqrtPi2, _mm256_sqrt_pd(*(__m256d*)delt));        // sqrt(2pi)/sqrt(tr-ti)
                 __m256d coeff_imag = coeff_real;
@@ -110,6 +113,7 @@ namespace SFA {
                     )
                 );
 
+std::cout << "line: " << __LINE__ << std::endl;
                 for (int i = 0; i < 4; i++) {
                     realx[itr] += temp_rx[i];
                     realy[itr] += temp_ry[i];
@@ -119,6 +123,7 @@ namespace SFA {
             }
             
 
+std::cout << "line: " << __LINE__ << std::endl;
             for (; iti < itr; iti++) {
                 deltat = ts[itr] - ts[iti];
                 action = ComputeAction(itr, iti);
