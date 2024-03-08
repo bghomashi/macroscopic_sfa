@@ -38,6 +38,8 @@ namespace SFA {
         Profile::Push("SFA::Execute2D");
 #endif
         // for each recombination time
+std::cout << "itr : " << itr << " line: " << __LINE__ << std::endl;
+
         for (int itr = 2; itr < NT; itr++) {
             realx[itr] = 0;
             realy[itr] = 0;
@@ -119,7 +121,7 @@ namespace SFA {
             }
             
 
-std::cout << "line: " << __LINE__ << std::endl;
+std::cout << "itr : " << itr << " line: " << __LINE__ << std::endl;
             for (; iti < itr; iti++) {
                 deltat = ts[itr] - ts[iti];
                 action = ComputeAction(itr, iti);
