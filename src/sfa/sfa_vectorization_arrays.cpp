@@ -10,7 +10,7 @@ namespace SFA {
         std::cout << ts.size() << std::endl;
         uint64_t NTs = ts.size() /* * (ts.size() + 1) / 2 */* sizeof(double);
         std::cout << NTs << std::endl;
-        LOG_INFO("allocating: " + std::to_string(13*NTs + (ts.size() * sizeof(cvec2))) + " bytes (" + std::to_string(double(13*NTs + (ts.size() * sizeof(cvec2)))/1024./1024./1024.) + " Gb" + ")");
+        LOG_INFO("allocating: " + std::to_string(4*NTs + (ts.size() * sizeof(cvec2))) + " bytes (" + std::to_string(double(13*NTs + (ts.size() * sizeof(cvec2)))/1024./1024./1024.) + " Gb" + ")");
 #if defined(PROFILING)
         Profile::Push("SFA::SetupVectorization");
 #endif
