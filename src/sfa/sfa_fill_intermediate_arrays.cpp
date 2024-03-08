@@ -50,7 +50,7 @@ std::cout << "FillIntermediateArrays" << std::endl;
         Log::flush();
 // for (int i = 19900; i < 20000; i++)
 // std::cout << i <<" "<< ts[i] << std::endl;
-exit(0);
+// exit(0);
         for (int itr = 2; itr < ts.size(); itr++) {             // tr
             std::cout << itr << " " << ts[itr] << std::endl;
             continue;
