@@ -52,7 +52,9 @@ std::cout << "FillIntermediateArrays" << std::endl;
 // std::cout << i <<" "<< ts[i] << std::endl;
 // exit(0);
         for (int itr = 2; itr < ts.size(); itr++) {             // tr
-if (itr >= 21090) std::cout << " " << std::to_string(itr) << std::endl;
+            std::cout << " " << ts[itr] << std::endl;
+            continue;
+            
             int idx = index(itr, 0);
             int l = (itr - 2) / 4;
             int iti = 1;
