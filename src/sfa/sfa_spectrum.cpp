@@ -4,6 +4,9 @@
 #include "maths/blackman.h"
 #include "utility/profiler.h"
 #include <complex>
+#include <iostream>
+#include <fstream>
+#include <iomanip>
 
 namespace SFA {
     void SFA::Spectrum() {
@@ -16,6 +19,16 @@ namespace SFA {
         hhg.resize(nf);
 
         auto window = blackman(nt);
+
+
+
+        std::ofstream file("dipole.dat");
+        file << std::setprecision(8) << std::scientific;
+        for (int itr = 0; itr < nt; itr++) {
+            file << ts[itr] << " "  << window[it] * std::real(dipole[itr].x) << " " << window[it] * std::real(dipole[itr].y) << std::endl;
+        }
+        // exit(0);
+
 
         double dt = ts[1] - ts[0];
         for (int iff = 0; iff < nf; iff++) {
