@@ -40,7 +40,7 @@ namespace SFA {
         // for each recombination time
 
         for (int itr = 2; itr < NT; itr++) {
-std::cout << "itr : " << itr << " line: " << __LINE__ << std::endl;
+std::cout << "itr : " << itr << "/" << NT << " line: " << __LINE__ << std::endl;
 
             realx[itr] = 0;
             realy[itr] = 0;
@@ -122,7 +122,7 @@ std::cout << "itr : " << itr << " line: " << __LINE__ << std::endl;
             }
             
 
-std::cout << "itr : " << itr << " line: " << __LINE__ << std::endl;
+std::cout << "itr : " << itr << "/" << NT << " line: " << __LINE__ << std::endl;
             for (; iti < itr; iti++) {
                 deltat = ts[itr] - ts[iti];
                 action = ComputeAction(itr, iti);
