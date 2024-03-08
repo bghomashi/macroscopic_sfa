@@ -2,6 +2,7 @@
 #include "maths/maths.h"
 #include "maths/vec2.h"
 #include "maths/blackman.h"
+#include "maths/cos2_window.h"
 #include "utility/profiler.h"
 #include <complex>
 #include <iostream>
@@ -18,8 +19,8 @@ namespace SFA {
         int nf = int(frequencies.size());
         hhg.resize(nf);
 
-        auto window = blackman(nt);
-
+        // auto window = blackman(nt);
+        auto window = cos2_window(nt);
 
 
         std::ofstream file("dipole.dat");
