@@ -175,7 +175,7 @@ namespace SFA {
         std::ofstream file("dipole.dat");
         file << std::setprecision(8) << std::scientific;
         for (int itr = 0; itr < NT; itr++) {
-            file << ts[itr] << " "  << dipole[itr].x << " " << dipole[itr].y << std::endl;
+            file << ts[itr] << " "  << std::real(dipole[itr].x) << " " << std::real(dipole[itr].y) << std::endl;
         }
         // exit(0);
 	}
