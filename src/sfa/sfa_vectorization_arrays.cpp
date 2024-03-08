@@ -3,8 +3,11 @@
 #include "utility/profiler.h"
 #include "utility/logger.h"
 
+#include <iostream>
+
 namespace SFA {
     void SFA::SetupVectorization() {
+        std::cout << ts.size() << std::endl;
         int NTs = ts.size() * (ts.size() + 1) / 2 * sizeof(double);
         LOG_INFO("allocating: " + std::to_string(13*NTs + (ts.size() * sizeof(cvec2))) + " bytes (" + std::to_string(double(13*NTs + (ts.size() * sizeof(cvec2)))/1024./1024./1024.) + " Gb" + ")");
 #if defined(PROFILING)
