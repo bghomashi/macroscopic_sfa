@@ -15,7 +15,7 @@
             "intensity" : 1e14,
             "beam_waist_um" : 30,
             "porras_factor" : 0,
-            "cycles" : 29,
+            "cycles" : 10,
             "polarization" : [1, 0],
             "wavelength_nm" : 800,
             "cep" : 0,
