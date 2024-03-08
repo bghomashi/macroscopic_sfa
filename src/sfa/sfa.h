@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include "maths/fast_maths.h"
 #include "maths/maths.h"
 #include "maths/vec2.h"
 
@@ -33,6 +34,15 @@ namespace SFA {
         double* dtm_itr_real_x, * dtm_itr_imag_x, * dtm_itr_real_y, * dtm_itr_imag_y;
         double* S0_saddle;
 
+        double dp, invdp;
+        __m256d vecIp, vecPs0, vecInvdp;
+
+        void ComputeDtmFast(int itr, int iti, 
+            __m256d& dtmTrRealx, __m256d& dtmTrRealy, __m256d& dtmTrImagx, __m256d& dtmTrImagy, 
+            __m256d& dtmTiRealx, __m256d& dtmTiRealy, __m256d& dtmTiImagx, __m256d& dtmTiImagy);
+        void ComputeDtm(int itr, int iti, cvec2& dtmTr, cvec2& dtmTi);
+        void ComputeActionFast(int itr, int iti, double* out);
+        double ComputeAction(int itr, int iti);
         void FillIntermediateArrays();
         cvec2 DTM(const dvec2& p);
 

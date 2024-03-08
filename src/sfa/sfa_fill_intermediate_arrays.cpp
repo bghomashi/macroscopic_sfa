@@ -62,10 +62,6 @@ std::cout << "FillIntermediateArrays" << std::endl;
             for (iti = 1; iti < l * 4; iti += 4) {             // ti
 
                 for (int i = 0; i < 4; i++) {
-if (itr >= 21090) std::cout << "iti+i - itr " << iti + i 
-                            << " " << ts[21091]
-                            << " " << ts[19977] << std::endl;
-
                     delt[i] = ts[iti + i] - ts[itr];
                     dvec2 p = dvec2{ (intA[itr] - intA[iti + i]).x, (intA[itr] - intA[iti + i]).y } / delt[i];
                     PP[i] = p.x * p.x + p.y * p.y;
@@ -75,16 +71,8 @@ if (itr >= 21090) std::cout << "iti+i - itr " << iti + i
                     trPy[i] = p.y + A[itr].y;
                     tiPx[i] = p.x + A[iti].x;
                     tiPy[i] = p.y + A[iti].y;
-                    
-if (itr >= 21090) std::cout << "delt " << delt[i] << std::endl;
-if (itr >= 21090) std::cout << "p " << p.x << " " << p.y << std::endl;
-if (itr >= 21090) std::cout << "A[itr] " << A[itr].x << " " << A[itr].y << std::endl;
-if (itr >= 21090) std::cout << "A[iti] " << A[iti].x << " " << A[iti].y << std::endl;
                 }
 
-if (itr >= 21090) std::cout << " " << std::to_string(__LINE__) << std::endl;
-if (itr >= 21090) std::cout << "tr " << trPx[0] << " " << trPy[0]<< std::endl;
-if (itr >= 21090) std::cout << "ti " << tiPx[0] << " " << tiPy[0]<< std::endl;
                 _mm256_store_pd(trL, _mm256_sqrt_pd(_mm256_add_pd(
                     _mm256_mul_pd(*(__m256d*)trPx, *(__m256d*)trPx),
                     _mm256_mul_pd(*(__m256d*)trPy, *(__m256d*)trPy)
