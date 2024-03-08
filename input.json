@@ -19,7 +19,7 @@
             "polarization" : [1, 0],
             "wavelength_nm" : 800,
             "cep" : 0,
-            "cycles_delay" : 0
+            "cycles_delay" : 2
         }
     ],
     "gas_jet" : {
