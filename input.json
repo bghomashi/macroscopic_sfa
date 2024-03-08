@@ -15,11 +15,11 @@
             "intensity" : 1e14,
             "beam_waist_um" : 30,
             "porras_factor" : 0,
-            "cycles" : 10,
+            "cycles" : 30,
             "polarization" : [1, 0],
             "wavelength_nm" : 800,
             "cep" : 0,
-            "cycles_delay" : 20
+            "cycles_delay" : 0
         }
     ],
     "gas_jet" : {
