@@ -52,7 +52,7 @@ std::cout << "FillIntermediateArrays" << std::endl;
 // std::cout << i <<" "<< ts[i] << std::endl;
 // exit(0);
         for (int itr = 2; itr < ts.size(); itr++) {             // tr
-            std::cout << " " << ts[itr] << std::endl;
+            std::cout << itr << " " << ts[itr] << std::endl;
             continue;
             
             int idx = index(itr, 0);
