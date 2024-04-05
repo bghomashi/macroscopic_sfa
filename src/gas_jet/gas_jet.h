@@ -8,6 +8,7 @@
 class CylindricalGasJet {
     double _density, _sigma;
     double _radius, _length;
+    double _z_shift_zr;
     size_t _n;
 
     std::random_device rd;
@@ -28,7 +29,7 @@ public:
     std::vector<Cell> cells;
 
     CylindricalGasJet();
-    CylindricalGasJet(double density_cm3, double sigma_um, double radius_um, double length_um, size_t num);
+    CylindricalGasJet(double density_cm3, double sigma_um, double radius_um, double length_um, size_t num, double z_shift_zr);
 
     void SampleCylinder(const std::vector<Laser>& lasers);
     CylindricalGasJet& operator=(const CylindricalGasJet& o);

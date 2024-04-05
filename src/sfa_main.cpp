@@ -23,7 +23,7 @@ int SFA_MAIN() {
     LOG_INFO("set up sfa");
     SFA::SFA sfa;
     sfa.ts = Range(dt, tmax);
-    std::cout <<sfa.ts.size() << std::endl;
+    // std::cout << sfa.ts.size() << std::endl;
 
 // for (int i = 19900; i < 20000; i++)
 // std::cout << i <<" "<<sfa.ts[i] << std::endl;
@@ -43,19 +43,31 @@ int SFA_MAIN() {
     sfa.SetupVectorization();
     sfa.SetupDTM();
 
+    Log::flush();
+
     LOG_INFO("SetupFieldArrays");
     sfa.SetupFieldArrays();
     LOG_INFO("Execute2D");
     sfa.Execute2D();
     LOG_INFO("Spectrum");
+    Log::flush();
+
     sfa.Spectrum();
+
+    Log::flush();
 
     //sfa.FreeVectorization();
 
 
     ThreadPool::Shutdown();
 
-    Store(output_filename, frequencies, sfa.hhg);
+    if (!binary_output) {
+        Store(output_filename, frequencies, sfa.hhg);
+    } else {
+        StoreBinary(output_filename, sfa.hhg, store_polarization);
+        if (store_domain)
+            StoreBinary("domain.bin", frequencies);
+    }
 
     return 0;
 }

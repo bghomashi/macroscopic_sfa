@@ -44,7 +44,7 @@ namespace SFA {
         const __m256d vecInvdp = _mm256_set1_pd(invdp);
 
 
-std::cout << "FillIntermediateArrays" << std::endl;
+// std::cout << "FillIntermediateArrays" << std::endl;
 
         LOG_DEBUG("FillIntermediateArrays " + std::to_string(__LINE__));
         Log::flush();

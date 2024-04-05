@@ -29,7 +29,7 @@ int MACRO_MAIN() {
 
     // -------------- set up gas jet ------------------
     LOG_INFO("set up gas jet");
-    CylindricalGasJet gas_jet(gas_density_cm3, gas_sig_um, gas_radius_um, gas_length_um, gas_cells);
+    CylindricalGasJet gas_jet(gas_density_cm3, gas_sig_um, gas_radius_um, gas_length_um, gas_cells, gas_z_shift_zr);
     gas_jet.SampleCylinder(lasers);
 
     // -------------- set up threadpool ---------------

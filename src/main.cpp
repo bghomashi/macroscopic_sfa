@@ -7,6 +7,9 @@
 #include "common_params.h"
 
 bool sfa_only = false;
+bool binary_output = false;
+int store_polarization = -1;
+bool store_domain = false;
 size_t worker_thread = 16;
 // laser parameters
 dvector peak_I0_wcm2 = {1e14};
@@ -24,6 +27,7 @@ double gas_radius_um = 500;
 double gas_length_um = 6 * waist_um.back();
 size_t gas_cells = 100000;
 double gas_sig_um = 800;
+double gas_z_shift_zr = 0;
 double gas_density_cm3 = 1;
 
 double dt = 0.2;
@@ -50,7 +54,7 @@ int main() {
 
     LOG_INFO("Go...");
 
-    if (sfa_only)
+    if (sfa_only) 
         SFA_MAIN();
     else 
         MACRO_MAIN();
@@ -76,6 +80,19 @@ bool ReadInput(const std::string& filename) {
         sfa_only = input["sfa_only"].get<bool>();
     else
         sfa_only = false;
+    if (input.contains("binary_output"))
+        binary_output = input["binary_output"].get<bool>();
+    else
+        binary_output = false;
+        
+    if (input.contains("store_polarization"))
+        store_polarization = input["store_polarization"].get<int>();
+    else
+        store_polarization = -1;
+    if (input.contains("store_domain"))
+        store_domain = input["store_domain"].get<bool>();
+    else
+        store_domain = false;
 
     worker_thread = input["threads"].get<size_t>();
     dt = input["dt"].get<double>();
@@ -137,6 +154,8 @@ bool ReadInput(const std::string& filename) {
     gas_cells = gas_jet["cells"].get<size_t>();
     gas_sig_um = gas_jet["sigma_um"].get<double>();
     gas_density_cm3 = gas_jet["density_cm3"].get<double>();
+    if (gas_jet.contains("z_shift"))
+        gas_z_shift_zr = gas_jet["z_shift"].get<double>();
 
     return true;
 }

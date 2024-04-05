@@ -2,7 +2,11 @@
 #include <string>
 
 extern bool sfa_only;
+extern bool binary_output;
+extern int store_polarization;
+extern bool store_domain;
 extern size_t worker_thread;
+
 // laser parameters
 extern dvector peak_I0_wcm2;
 extern dvector waist_um;
@@ -19,6 +23,7 @@ extern double gas_radius_um;
 extern double gas_length_um;
 extern size_t gas_cells;
 extern double gas_sig_um;
+extern double gas_z_shift_zr;
 extern double gas_density_cm3;
 
 extern double dt;

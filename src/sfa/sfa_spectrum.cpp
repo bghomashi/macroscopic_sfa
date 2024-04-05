@@ -23,11 +23,11 @@ namespace SFA {
         auto window = cos2_window(nt);
 
 
-        std::ofstream file("dipole.dat");
-        file << std::setprecision(8) << std::scientific;
-        for (int itr = 0; itr < nt; itr++) {
-            file << ts[itr] << " "  << window[itr] * std::real(dipole[itr].x) << " " << window[itr] * std::real(dipole[itr].y) << std::endl;
-        }
+        // std::ofstream file("dipole.dat");
+        // file << std::setprecision(8) << std::scientific;
+        // for (int itr = 0; itr < nt; itr++) {
+        //     file << ts[itr] << " "  << window[itr] * std::real(dipole[itr].x) << " " << window[itr] * std::real(dipole[itr].y) << std::endl;
+        // }
         // exit(0);
 
 

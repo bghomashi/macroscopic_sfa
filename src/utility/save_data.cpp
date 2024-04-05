@@ -118,3 +118,37 @@ bool Store(const std::string& filename, const dvector& data) {
     }
     return true;
 }
+
+
+
+bool StoreBinary(const std::string& filename, const c2vector& data, int index) {
+    int nf = int(data.size());
+    std::ofstream file(filename, std::ios::out | std::ios::binary);
+    if (!file.is_open())
+        return false;
+    
+    if (index == 0) {
+        for (int iff = 0; iff < nf; iff++) {
+            file.write((const char*)&data[iff].x, sizeof(complex));
+        }
+    } else if (index == 1) {
+        for (int iff = 0; iff < nf; iff++) {
+            file.write((const char*)&data[iff].y, sizeof(complex));
+        }
+    } else {
+        file.write((const char*)data.data(), data.size() * sizeof(cvec2));
+    }
+    return true;
+}
+
+
+bool StoreBinary(const std::string& filename, const dvector& data) {
+    int nf = int(data.size());
+    std::ofstream file(filename, std::ios::out | std::ios::binary);
+    if (!file.is_open())
+        return false;
+    
+    file.write((const char*)data.data(), data.size() * sizeof(double));
+    
+    return true;
+}

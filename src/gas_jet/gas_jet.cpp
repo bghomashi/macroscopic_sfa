@@ -2,10 +2,10 @@
 #include "maths/maths.h"
 
 
-CylindricalGasJet::CylindricalGasJet() : gen(rd()), dis_xz(0., 1.), dis_y(-_length / 2., _length / 2.), dis_t(0., 2. * Pi), _density(0), _sigma(0) {}
-CylindricalGasJet::CylindricalGasJet(double density_cm3, double sigma_um, double radius_um, double length_um, size_t n) :
+CylindricalGasJet::CylindricalGasJet() : gen(rd()), dis_xz(0., 1.), dis_y(-_length / 2., _length / 2.), dis_t(0., 2. * Pi), _density(0), _sigma(0), _z_shift_zr(0) {}
+CylindricalGasJet::CylindricalGasJet(double density_cm3, double sigma_um, double radius_um, double length_um, size_t n, double z_shift_zr) :
     _n(n), _length(length_um * umToAU), _radius(radius_um * umToAU), _sigma(sigma_um * umToAU), _density(density_cm3 / cmToAU / cmToAU / cmToAU), 
-    gen(rd()), dis_xz(0., _sigma), dis_y(-_length / 2., _length / 2.), dis_t(0., 2. * Pi) {
+    gen(rd()), dis_xz(0., _sigma), dis_y(-_length / 2., _length / 2.), dis_t(0., 2. * Pi), _z_shift_zr(z_shift_zr) {
 }
 
 
@@ -30,7 +30,7 @@ void CylindricalGasJet::SampleCylinder(const std::vector<Laser>& lasers) {
     else {
         for (int i = 0; i < _n;) {
             Cell cell;
-            cell.pos.z = dis_xz(gen);
+            cell.pos.z = dis_xz(gen) + _z_shift_zr * lasers[0].RayleighLength();
             cell.pos.x = dis_xz(gen);
             cell.pos.y = dis_y(gen);
             cell.density = 1; //_density*exp(-0.5*R*R/_sigma/_sigma);

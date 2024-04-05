@@ -14,5 +14,7 @@ bool Store(const std::string& filename, const d2vector& data);
 bool Store(const std::string& filename, const cvector& data);
 bool Store(const std::string& filename, const dvector& data);
 
+bool StoreBinary(const std::string& filename, const c2vector& data, int index = -1);
+bool StoreBinary(const std::string& filename, const dvector& data);
 
 
